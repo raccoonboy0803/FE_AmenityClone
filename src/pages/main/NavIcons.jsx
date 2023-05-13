@@ -80,6 +80,7 @@ const ImgBox = styled.div`
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  cursor: pointer;
 `;
 
 const NavP = styled.span`
