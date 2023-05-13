@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Sign.css';
 import styled from 'styled-components';
 import * as st from '../shared/styles';
@@ -8,21 +8,18 @@ import { FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 function Login() {
+
   let navigate = useNavigate();
 
   const EMAIL_REGEX =
     /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
   const PWD_REGEX = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,24}$/;
 
-  const errRef = useRef();
-
   const [email, setEmail] = useState('');
   const [isEmail, setIsEmail] = useState(false);
 
   const [password, setPassword] = useState('');
   const [isPassword, setIsPassword] = useState(false);
-
-  const [errMsg, setErrMsg] = useState('');
 
   useEffect(() => {
     setIsEmail(EMAIL_REGEX.test(email));
@@ -100,10 +97,8 @@ const LoginBox = styled.div`
   padding-top: 100px;
   width: 330px;
   height: 700px;
-  /* background-color: skyblue; */
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
 `;
 
@@ -155,7 +150,6 @@ const MiddleText = styled.div`
 const SignInput = styled.input`
   width: 270px;
   height: 30px;
-  /* background-color:skyblue; */
   margin-left: 10px;
   border: none;
   font-size: 1.1rem;
