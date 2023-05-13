@@ -21,7 +21,7 @@ function Header() {
       {scroll < 10 ? (
         <HeaderBox>
           <TitleBox>
-            <st.Logo>여기어떠니.</st.Logo>
+            <st.Logo onClick={() => navigate('/')}>여기어떠니.</st.Logo>
             <MemberBox>
               <MemberNav>
                 <FaSearch />
@@ -85,7 +85,7 @@ const TitleBox = styled.div`
 `;
 
 const MemberBox = styled.div`
-  width: 300px;
+  width: 250px;
   display: flex;
   justify-content: space-between;
   align-items: center;

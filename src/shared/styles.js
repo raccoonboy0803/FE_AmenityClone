@@ -18,4 +18,5 @@ export const Logo = styled.h1`
   font-family: jalnan;
   font-size: 1.5rem;
   line-height: 40px;
+  cursor: pointer;
 `;

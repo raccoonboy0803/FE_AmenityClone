@@ -10,6 +10,11 @@ import * as st from '../shared/styles';
 import Carousel from './main/Carousel';
 
 function Main() {
+
+    const mainImgClick = () => {
+        alert('모바일 앱에서만 다운로드가 가능합니다!')
+    }
+
   return (
     <>
       <Header />
@@ -21,7 +26,7 @@ function Main() {
             앱 다운 받고{' '}
             <span style={{ fontWeight: 'bold' }}>더 많은 혜택</span> 받으세요
           </p>
-          <st.Row>
+          <st.Row onClick={mainImgClick}>
             <AppDown app="google" />
             <AppDown app="apple" />
           </st.Row>
