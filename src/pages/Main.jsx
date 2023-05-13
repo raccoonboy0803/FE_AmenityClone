@@ -7,6 +7,7 @@ import google from '../images/gooleplay.png';
 import apple from '../images/appstore.png';
 import NavIcons from './main/NavIcons';
 import * as st from '../shared/styles';
+import Carousel from './main/Carousel';
 
 function Main() {
   return (
@@ -25,6 +26,7 @@ function Main() {
             <AppDown app="apple" />
           </st.Row>
         </AppImage>
+        <Carousel />
       </MainBackground>
     </>
   );
@@ -46,6 +48,7 @@ const MainImage = styled.div`
   height: 460px;
   background-image: url(${mainImage});
   background-size: cover;
+  cursor: pointer;
 `;
 
 const AppImage = styled.div`

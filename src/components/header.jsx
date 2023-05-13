@@ -55,6 +55,7 @@ const HeaderBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 `;
 
 const HeaderBoxOther = styled.div`
@@ -68,6 +69,7 @@ const HeaderBoxOther = styled.div`
   align-items: center;
   -webkit-box-shadow: 0px 4px 13px -4px #d0d0d0;
   box-shadow: 0px 4px 13px -4px #d0d0d0;
+  z-index: 10;
 `;
 
 const TitleBox = styled.div`
