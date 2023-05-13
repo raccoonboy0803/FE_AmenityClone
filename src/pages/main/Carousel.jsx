@@ -31,7 +31,7 @@ function Carousel() {
 export default Carousel;
 
 const CarBg = styled.div`
-  width: 60%;
+  width: 930px;
   height: 300px;
   margin-top: 50px;
   position: relative;
@@ -44,8 +44,8 @@ const CarP = styled.p`
 `;
 
 const CarBox = styled.div`
-  width: 100%;
-  height: 180px;
+  width: 930px;
+  height: 200px;
   display: flex;
   background-image: url(${props => props.car === 'slide1' ? `${slide1}` : (props => props.car === 'slide2' ? `${slide2}` : `${slide3}`)});
   background-position: center;

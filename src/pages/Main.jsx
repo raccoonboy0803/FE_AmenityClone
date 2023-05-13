@@ -13,8 +13,8 @@ function Main() {
   return (
     <>
       <Header />
-      <MainBackground>
-        <MainImage />
+      <st.Background>
+          <MainImage />
         <NavIcons />
         <AppImage>
           <p className="AppP">
@@ -27,32 +27,26 @@ function Main() {
           </st.Row>
         </AppImage>
         <Carousel />
-      </MainBackground>
+      </st.Background>
     </>
   );
 }
 
 export default Main;
 
-const MainBackground = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
 const MainImage = styled.div`
   margin-top: 110px;
-  width: 60%;
-  height: 460px;
+  width: 930px;
+  height: 480px;
+  background-color: skyblue;
   background-image: url(${mainImage});
   background-size: cover;
+  background-position: center;
   cursor: pointer;
 `;
 
 const AppImage = styled.div`
-  width: 60%;
+  width: 930px;
   height: 300px;
   background-image: url(${appimage});
   background-size: cover;
@@ -67,7 +61,7 @@ const AppImage = styled.div`
 `;
 
 const AppDown = styled.div`
-  width: 200px;
+  width: 180px;
   height: 70px;
   background-image: url(${(props) =>
     props.app === 'google' ? `${google}` : `${apple}`});
