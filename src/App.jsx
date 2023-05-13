@@ -1,5 +1,7 @@
+import Detail from './pages/Detail';
+
 function App() {
-  return;
+  return <Detail />;
 }
 
 export default App;
