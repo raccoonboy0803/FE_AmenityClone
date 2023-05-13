@@ -1,7 +1,9 @@
-import Detail from './pages/Detail';
+import Router from './Router';
+import './App.css';
+import Main from './pages/Main';
 
 function App() {
-  return <Detail />;
+  return <Router />;
 }
 
 export default App;
