@@ -1,5 +1,12 @@
+import './App.css'
+import Main from './pages/Main';
+
 function App() {
-  return;
+  return (
+    <div>
+      <Main />
+    </div>
+  );
 }
 
 export default App;
