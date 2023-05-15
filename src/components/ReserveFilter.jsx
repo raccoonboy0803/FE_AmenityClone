@@ -160,7 +160,7 @@ export default ReserveFilter;
 const FilterWrap = styled.div`
   display: inline-block;
   position: relative;
-  top: 40px;
+  /* top: 40px; */
   z-index: 1;
   width: 296px;
   margin: 0 32px 0 31px;

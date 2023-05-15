@@ -8,7 +8,7 @@ function Reserve() {
   const params = useParams();
 
   return (
-    <div style={{ display: 'flex', width: '60%', margin: '0 auto' }}>
+    <div style={{ display: 'flex', width: '75%', margin: '0 auto' }}>
       <ReserveFilter />
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <div style={{ marginBottom: '20px' }}>
@@ -41,7 +41,7 @@ const TopSort = styled.div`
   width: 100%;
   display: inline-block;
   position: relative;
-  top: 40px;
+  /* top: 40px; */
   overflow: hidden;
   padding: 0;
   background: #fff;
@@ -72,7 +72,7 @@ const TopSort = styled.div`
 const ProductWrap = styled.div`
   div {
     position: relative;
-    padding: 20px 0 0px 0;
+    /* padding: 20px 0 0px 0; */
     background: none;
 
     h3 {
