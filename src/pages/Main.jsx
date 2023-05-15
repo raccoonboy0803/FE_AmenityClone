@@ -10,16 +10,14 @@ import * as st from '../shared/styles';
 import Carousel from './main/Carousel';
 
 function Main() {
-
-    const mainImgClick = () => {
-        alert('모바일 앱에서만 다운로드가 가능합니다!')
-    }
+  const mainImgClick = () => {
+    alert('모바일 앱에서만 다운로드가 가능합니다!');
+  };
 
   return (
     <>
-      <Header />
       <st.Background>
-          <MainImage />
+        <MainImage />
         <NavIcons />
         <AppImage>
           <p className="AppP">
@@ -40,7 +38,6 @@ function Main() {
 export default Main;
 
 const MainImage = styled.div`
-  margin-top: 110px;
   width: 930px;
   height: 480px;
   background-color: skyblue;
@@ -68,8 +65,8 @@ const AppImage = styled.div`
 const AppDown = styled.div`
   width: 180px;
   height: 70px;
-  background-image: url(${(props) =>
-    props.app === 'google' ? `${google}` : `${apple}`});
+  /* background-image: url(${(props) =>
+    props.app === 'google' ? `${google}` : `${apple}`}); */
   background-size: contain;
   background-repeat: no-repeat;
   cursor: pointer;
