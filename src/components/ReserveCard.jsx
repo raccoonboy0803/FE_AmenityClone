@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 const ReserveCard = () => {
   return (
     <ListWrap>
       <ProductList>
-        <a href="#">
+        <Link to="/product/search/1">
           <p>
             <img src="//image.goodchoice.kr/resize_1000X500x0/affiliate/2023/01/30/63d7641ad61a2.jpg" />
           </p>
@@ -17,7 +18,7 @@ const ReserveCard = () => {
               <p className="lastP">강남구</p>
             </div>
           </div>
-        </a>
+        </Link>
       </ProductList>
     </ListWrap>
   );
@@ -27,10 +28,7 @@ export default ReserveCard;
 
 const ListWrap = styled.div`
   display: inline-block;
-  /* float: right; */
-  /* min-width: 6px; */
   width: 100%;
-  /* margin-top: 40px; */
 `;
 
 const ProductList = styled.li`
