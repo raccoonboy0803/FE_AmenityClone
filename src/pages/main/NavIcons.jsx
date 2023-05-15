@@ -41,7 +41,7 @@ function NavIcons() {
 export default NavIcons;
 
 const NavBox = styled.div`
-  width: 60%;
+  width: 930px;
   height: 200px;
   display: flex;
   box-sizing: border-box;

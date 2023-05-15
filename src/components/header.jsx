@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import styled from 'styled-components'; // eslint-disable-line no-unused-vars
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
+import * as st from '../shared/styles'
 
 function Header() {
+
+  let navigate = useNavigate()
+
   const [scroll, setScroll] = useState(0);
   const updateScroll = () => {
     setScroll(window.scrollY || document.documentElement.scrollTop);
@@ -16,20 +21,20 @@ function Header() {
       {scroll < 10 ? (
         <HeaderBox>
           <TitleBox>
-            <Logo>여기어떠니.</Logo>
+            <st.Logo onClick={() => navigate('/')}>여기어떠니.</st.Logo>
             <MemberBox>
-              <span>
+              <MemberNav>
                 <FaSearch />
-              </span>
-              <span>예약내역</span>
-              <span>로그인</span>
+              </MemberNav>
+              <MemberNav>예약내역</MemberNav>
+              <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
             </MemberBox>
           </TitleBox>
         </HeaderBox>
       ) : (
         <HeaderBoxOther>
           <TitleBox>
-            <Logo style={{color: '#de383f'}}>여기어떠니.</Logo>
+            <st.Logo style={{color: '#de383f'}}>여기어떠니.</st.Logo>
             <MemberBox>
               <span>
                 <FaSearch />
@@ -55,6 +60,7 @@ const HeaderBox = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
 `;
 
 const HeaderBoxOther = styled.div`
@@ -68,25 +74,24 @@ const HeaderBoxOther = styled.div`
   align-items: center;
   -webkit-box-shadow: 0px 4px 13px -4px #d0d0d0;
   box-shadow: 0px 4px 13px -4px #d0d0d0;
+  z-index: 10;
 `;
 
 const TitleBox = styled.div`
-  width: 60%;
+  width: 980px;
   height: 72px;
   display: flex;
   justify-content: space-between;
 `;
 
-const Logo = styled.h1`
-  font-family: jalnan;
-  font-size: 1.5rem;
-  line-height: 40px;
-`;
-
 const MemberBox = styled.div`
-  width: 25%;
+  width: 250px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 1.1rem;
 `;
+
+const MemberNav = styled.span`
+  cursor: pointer;
+`
