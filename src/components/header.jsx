@@ -26,7 +26,7 @@ function Header() {
               <MemberNav>
                 <FaSearch />
               </MemberNav>
-              <MemberNav>예약내역</MemberNav>
+              <MemberNav onClick={() => navigate('/reservation')}>예약내역</MemberNav>
               <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
             </MemberBox>
           </TitleBox>
@@ -34,13 +34,13 @@ function Header() {
       ) : (
         <HeaderBoxOther>
           <TitleBox>
-            <st.Logo style={{color: '#de383f'}}>여기어떠니.</st.Logo>
+            <st.Logo onClick={() => navigate('/')} style={{color: '#de383f'}}>여기어떠니.</st.Logo>
             <MemberBox>
-              <span>
+              <MemberNav>
                 <FaSearch />
-              </span>
-              <span>예약내역</span>
-              <span>로그인</span>
+              </MemberNav>
+              <MemberNav onClick={() => navigate('/reservation')}>예약내역</MemberNav>
+              <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
             </MemberBox>
           </TitleBox>
         </HeaderBoxOther>
@@ -94,4 +94,7 @@ const MemberBox = styled.div`
 
 const MemberNav = styled.span`
   cursor: pointer;
+  &:hover {
+    filter: brightness(0.9);
+  }
 `
