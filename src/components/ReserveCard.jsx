@@ -6,7 +6,7 @@ const ReserveCard = () => {
   return (
     <ListWrap>
       <ProductList>
-        <Link to="/product/search/1">
+        <Link to="/product/search/:searchId">
           <p>
             <img src="//image.goodchoice.kr/resize_1000X500x0/affiliate/2023/01/30/63d7641ad61a2.jpg" />
           </p>
@@ -49,7 +49,7 @@ const ProductList = styled.li`
       position: absolute;
       top: 0;
       left: 0;
-      z-index: 1;
+      /* z-index: 1; */
       width: 100%;
       min-height: 280px;
     }
@@ -59,7 +59,7 @@ const ProductList = styled.li`
       right: 0;
       bottom: 0;
       left: 0;
-      z-index: 10;
+      /* z-index: 10; */
       padding: 0 24px;
       background: rgba(0, 0, 0, 0.2);
 

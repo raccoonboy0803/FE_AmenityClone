@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import single from '../images/icon_single.png';
 import singleCheck from '../images/icon_singleCheck.png';
@@ -8,6 +8,8 @@ import twin from '../images/icon_twin.png';
 import twinCheck from '../images/icon_twinCheck.png';
 import ondol from '../images/icon_ondol.png';
 import ondolCheck from '../images/icon_ondolCheck.png';
+import Calender from './Calender.jsx';
+import { getMonthDate } from './Calendar2';
 
 const publicText = [
   { id: 0, value: '피트니스' },
@@ -47,17 +49,27 @@ const etcText = [
 ];
 
 const ReserveFilter = () => {
+  const [isCalender, setIsCalender] = useState(false);
+  const calenderHandle = () => {
+    setIsCalender((prev) => !prev);
+  };
+  const currentDate = new Date();
+  const res = getMonthDate(currentDate);
+  // console.log(res.date);
+  // console.log(res.date);
   return (
     <FilterWrap>
       <DateWrap>
         <h3>날짜</h3>
-        <div>
+        <div onClick={calenderHandle}>
           <span>
             <b>5.13 ~ 5.14</b>
             <em>&nbsp;&nbsp;1박</em>
           </span>
         </div>
       </DateWrap>
+      <CalenderWrap>{isCalender && <Calender />}</CalenderWrap>
+
       <DetailTitle>상세조건</DetailTitle>
       <BtnWrap>
         <button>초기화</button>
@@ -453,4 +465,13 @@ const SelectList = styled.li`
     vertical-align: top;
     cursor: pointer;
   }
+`;
+const CalenderWrap = styled.div`
+  position: absolute;
+  top: 145px;
+  left: 23px;
+  /* position: relative; */
+  /* top: 3; */
+  /* left: 15; */
+  z-index: 200;
 `;

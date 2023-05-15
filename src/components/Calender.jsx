@@ -1,10 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
+import { getMonthDate, getNewDateObj } from './Calendar2';
 
-const May = () => {
+export const CalendarDate = () => {
+  const newDate = getNewDateObj(new Date());
+  const response = getMonthDate(newDate);
+
   return (
     <CalDataWrap>
-      <thread>
+      <thead>
         <tr>
           <th>일</th>
           <th>월</th>
@@ -14,49 +18,44 @@ const May = () => {
           <th>금</th>
           <th>토</th>
         </tr>
-      </thread>
+      </thead>
       <tbody>
         <tr>
-          <td>&nbsp;</td>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
-          <td>5</td>
-          <td>6</td>
+          {response.date[0].map((date) =>
+            date.date > 7 ? (
+              <td key={date.date} style={{ color: 'white' }}>
+                {date.date}
+              </td>
+            ) : (
+              <td key={date.date}>{date.date}</td>
+            ),
+          )}
         </tr>
         <tr>
-          <td>7</td>
-          <td>8</td>
-          <td>9</td>
-          <td>10</td>
-          <td>11</td>
-          <td>12</td>
-          <td>13</td>
+          {response.date[1].map((date) => (
+            <td key={date.date}>{date.date}</td>
+          ))}
         </tr>
         <tr>
-          <td>14</td>
-          <td>15</td>
-          <td>16</td>
-          <td>17</td>
-          <td>18</td>
-          <td>19</td>
-          <td>20</td>
+          {response.date[2].map((date) => (
+            <td key={date.date}>{date.date}</td>
+          ))}
         </tr>
         <tr>
-          <td>21</td>
-          <td>22</td>
-          <td>23</td>
-          <td>24</td>
-          <td>25</td>
-          <td>26</td>
-          <td>27</td>
+          {response.date[3].map((date) => (
+            <td key={date.date}>{date.date}</td>
+          ))}
         </tr>
         <tr>
-          <td>28</td>
-          <td>29</td>
-          <td>30</td>
-          <td>31</td>
+          {response?.date[4].map((date) =>
+            date.date.toString().length === 1 ? (
+              <td key={date.date} style={{ color: 'white' }}>
+                {date.date}
+              </td>
+            ) : (
+              <td key={date.date}>{date.date}</td>
+            ),
+          )}
         </tr>
       </tbody>
     </CalDataWrap>
@@ -71,7 +70,7 @@ const CalDataWrap = styled.table`
     'Malgun Gothic', sans-serif;
   border-spacing: 0;
 
-  thread {
+  thead {
     display: table-header-group;
     vertical-align: middle;
     th {
@@ -107,7 +106,7 @@ const Calender = () => {
           <div />
         </CalenderTitle>
       </CalenderTop>
-      <May />
+      <CalendarDate />
     </CalenderWrap>
   );
 };
@@ -115,15 +114,15 @@ const Calender = () => {
 export default Calender;
 
 const CalenderWrap = styled.div`
-  margin-top: 20px;
-  top: 753px !important;
-  margin-left: -479px;
+  /* margin-top: 20px; */
+  /* top: 703px !important; */
+  /* margin-left: -479px; */
   overflow: hidden;
   width: 375px;
-  left: 50% !important;
+  /* left: 50% !important; */
   border-radius: 4px;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-  position: absolute;
+  /* position: absolute; */
   z-index: 200;
 `;
 const CalenderTop = styled.div``;
@@ -137,7 +136,7 @@ const CalenderTitle = styled.div`
     position: absolute;
     width: 24px;
     height: 24px;
-    top: 15%;
+    top: 11%;
     margin-top: -12px;
     background: url(//image.goodchoice.kr/images/web_v3/ico_arr_lt_4.png) 50%
       50% no-repeat;
@@ -145,13 +144,13 @@ const CalenderTitle = styled.div`
     cursor: pointer;
   }
   div:last-child {
-    left: auto;
-    right: 0;
+    right: -25%;
     margin-right: 10px;
     position: absolute;
     width: 24px;
     height: 24px;
-    top: 15%;
+    top: 11%;
+    left: auto;
     margin-top: -12px;
     background: url(//image.goodchoice.kr/images/web_v3/ico_arr_gt_4.png) 50%
       50% no-repeat;
