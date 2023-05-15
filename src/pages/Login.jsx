@@ -31,16 +31,16 @@ function Login() {
 
   return (
     <st.Background>
-      <LoginBox>
+      <st.SignBox>
         <st.Logo onClick={() => navigate('/')} style={{ color: '#de383f' }}>
           여기어떠니.
         </st.Logo>
 
-        <SignButton type="kakao">
-          <SignP type="kakao">
+        <st.SignButton type="kakao">
+          <st.SignP type="kakao">
             <BsFillChatFill /> 카카오톡으로 로그인
-          </SignP>
-        </SignButton>
+          </st.SignP>
+        </st.SignButton>
 
         <MiddleLine />
         <MiddleText>또는</MiddleText>
@@ -79,53 +79,18 @@ function Login() {
           비밀번호를 입력해주세요.
         </p>
 
-        <SignButton type="sign">
-          <SignP type="sign">로그인</SignP>
-        </SignButton>
+        <st.SignButton type="sign">
+          <st.SignP type="sign">로그인</st.SignP>
+        </st.SignButton>
 
         <div style={{ height: '25px' }}></div>
-        <SignP>회원가입</SignP>
-      </LoginBox>
+        <st.SignP style={{cursor: 'pointer'}} onClick={() => navigate('/signup')}>회원가입</st.SignP>
+      </st.SignBox>
     </st.Background>
   );
 }
 
 export default Login;
-
-const LoginBox = styled.div`
-  box-sizing: border-box;
-  padding-top: 100px;
-  width: 330px;
-  height: 700px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const SignButton = styled.div`
-  width: 330px;
-  height: 60px;
-  margin-top: 20px;
-  background-color: ${(props) =>
-    props.type === 'kakao' ? '#F7E600' : '#de383f'};
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-`;
-
-const SignP = styled.span`
-  font-size: 1rem;
-  font-weight: 600;
-  color: ${(props) =>
-    props.type === 'kakao'
-      ? '#3A1D1D'
-      : props.type === 'sign'
-      ? 'white'
-      : 'gray'};
-  cursor: pointer;
-`;
 
 const MiddleLine = styled.div`
   width: 330px;
