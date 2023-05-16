@@ -2,11 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import * as st from '../shared/styles'
+import * as st from '../shared/styles';
 
 function Header() {
-
-  let navigate = useNavigate()
+  let navigate = useNavigate();
 
   const [scroll, setScroll] = useState(0);
   const updateScroll = () => {
@@ -53,6 +52,8 @@ export default Header;
 
 const HeaderBox = styled.div`
   position: fixed;
+  top: 0;
+
   width: 100%;
   height: 72px;
   background-color: #de383f;
@@ -65,6 +66,7 @@ const HeaderBox = styled.div`
 
 const HeaderBoxOther = styled.div`
   position: fixed;
+  top: 0;
   width: 100%;
   height: 72px;
   background-color: white;
@@ -97,4 +99,4 @@ const MemberNav = styled.span`
   &:hover {
     filter: brightness(0.9);
   }
-`
+`;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import motel from '../../images/ico_category_01.png';
 import hotel from '../../images/ico_category_02.png';
@@ -8,6 +9,10 @@ import camping from '../../images/ico_category_05.png';
 import travle from '../../images/ico_category_09.png';
 
 function NavIcons() {
+  const navigate = useNavigate();
+  const hotelHandle = () => {
+    navigate('/product/search');
+  };
   return (
     <NavBox>
       <NavIcon>
@@ -15,7 +20,7 @@ function NavIcons() {
         <NavP>모텔</NavP>
       </NavIcon>
       <NavIcon>
-        <ImgBox name="hotel" />
+        <ImgBox name="hotel" onClick={hotelHandle} />
         <NavP>호텔·리조트</NavP>
       </NavIcon>
       <NavIcon>
@@ -62,7 +67,7 @@ const ImgBox = styled.div`
   width: 80px;
   height: 80px;
   background-image: url(${(props) =>
-    props.name == 'motel'
+    props.name === 'motel'
       ? `${motel}`
       : (props) =>
           props.name === 'hotel'
@@ -84,6 +89,6 @@ const ImgBox = styled.div`
 `;
 
 const NavP = styled.span`
-    font-size: 1.1rem;
-    color: gray;
-`
+  font-size: 1.1rem;
+  color: gray;
+`;
