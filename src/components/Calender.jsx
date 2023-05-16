@@ -1,10 +1,69 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getMonthDate, getNewDateObj } from './Calendar2';
+import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
+import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
+import { format, addMonths, subMonths } from 'date-fns';
 
-export const CalendarDate = () => {
+export const CalendarDate = ({
+  setStartDate,
+  setEndDate,
+  startDate,
+  endDate,
+}) => {
   const newDate = getNewDateObj(new Date());
+  // console.log(newDate.date);
   const response = getMonthDate(newDate);
+  // const monthStart = startOfMonth(currentMonth);
+  // const monthEnd = endOfMonth(monthStart);
+  // const startDate = startOfWeek(monthStart);
+  // const endDate = endOfWeek(monthEnd);
+  // console.log(typeof response.date[0][1].date);
+  // let day = startDate;
+  // const cloneDay = day;
+
+  const current = new Date().getDate();
+  const onDateClick = (e) => {
+    const { innerText } = e.target;
+    if (innerText < current) {
+      return;
+    }
+    if (innerText >= endDate) {
+      setStartDate(innerText);
+      setEndDate(undefined);
+    } else if (endDate === undefined) {
+      setEndDate(innerText);
+    } else if (innerText <= startDate && endDate !== undefined) {
+      setStartDate(innerText);
+      setEndDate(undefined);
+    } else if (innerText >= startDate && innerText <= endDate) {
+      setStartDate(innerText);
+      setEndDate(undefined);
+    }
+  };
+  console.log('start::::::', startDate);
+  console.log('end:::::::', endDate);
+  useEffect(() => {
+    const res = document.getElementsByTagName('td');
+
+    for (let i = 0; i < new Date().getDate(); i++) {
+      res[i].style.color = 'rgba(0, 0, 0, 0.38)';
+      res[i].style.background = 'white';
+    }
+    for (let i = startDate; i <= endDate; i++) {
+      res[i].style.background = 'rgb(242, 17, 76)';
+    }
+    for (let i = 0; i < res.length; i++) {
+      if (i >= startDate && i <= endDate) {
+        continue;
+      }
+      res[i].style.background = 'white';
+    }
+  }, [startDate, endDate]);
+  useEffect(() => {
+    const res = document.getElementsByTagName('td');
+    res[startDate].style.background = 'rgb(242, 17, 76)';
+  }, [startDate]);
 
   return (
     <CalDataWrap>
@@ -27,23 +86,31 @@ export const CalendarDate = () => {
                 {date.date}
               </td>
             ) : (
-              <td key={date.date}>{date.date}</td>
+              <td key={date.date} onClick={onDateClick}>
+                {date.date}
+              </td>
             ),
           )}
         </tr>
         <tr>
           {response.date[1].map((date) => (
-            <td key={date.date}>{date.date}</td>
+            <td key={date.date} onClick={onDateClick}>
+              {date.date}
+            </td>
           ))}
         </tr>
         <tr>
           {response.date[2].map((date) => (
-            <td key={date.date}>{date.date}</td>
+            <td key={date.date} onClick={onDateClick}>
+              {date.date}
+            </td>
           ))}
         </tr>
         <tr>
           {response.date[3].map((date) => (
-            <td key={date.date}>{date.date}</td>
+            <td key={date.date} onClick={onDateClick}>
+              {date.date}
+            </td>
           ))}
         </tr>
         <tr>
@@ -53,7 +120,9 @@ export const CalendarDate = () => {
                 {date.date}
               </td>
             ) : (
-              <td key={date.date}>{date.date}</td>
+              <td key={date.date} onClick={onDateClick}>
+                {date.date}
+              </td>
             ),
           )}
         </tr>
@@ -93,20 +162,32 @@ const CalDataWrap = styled.table`
   }
 `;
 
-const Calender = () => {
+const Calender = ({ props }) => {
+  const newDate = getNewDateObj(new Date());
+  const response = getMonthDate(newDate);
+
+  const [startDate, setStartDate] = useState(new Date().getDate());
+  const [endDate, setEndDate] = useState(new Date().getDate() + 1);
+
   return (
     <CalenderWrap>
       <CalenderTop>
         <CalenderTitle>
           <div />
           <div>
-            <span>2023년&nbsp;</span>
-            <span>5월</span>
+            <span>{response.year}년&nbsp;</span>
+            <span>{response.month}월</span>
           </div>
           <div />
         </CalenderTitle>
       </CalenderTop>
-      <CalendarDate />
+      <CalendarDate
+        setStartDate={setStartDate}
+        setEndDate={setEndDate}
+        startDate={startDate}
+        endDate={endDate}
+      />
+      <button onClick={props}>선택 완료</button>
     </CalenderWrap>
   );
 };
@@ -144,7 +225,7 @@ const CalenderTitle = styled.div`
     cursor: pointer;
   }
   div:last-child {
-    right: -25%;
+    right: 1%;
     margin-right: 10px;
     position: absolute;
     width: 24px;

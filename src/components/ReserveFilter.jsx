@@ -10,6 +10,7 @@ import ondol from '../images/icon_ondol.png';
 import ondolCheck from '../images/icon_ondolCheck.png';
 import Calender from './Calender.jsx';
 import { getMonthDate } from './Calendar2';
+import { Calender3 } from './Calender3';
 
 const publicText = [
   { id: 0, value: '피트니스' },
@@ -55,8 +56,9 @@ const ReserveFilter = () => {
   };
   const currentDate = new Date();
   const res = getMonthDate(currentDate);
-  // console.log(res.date);
-  // console.log(res.date);
+
+  const calendarPick = () => {};
+
   return (
     <FilterWrap>
       <DateWrap>
@@ -470,8 +472,5 @@ const CalenderWrap = styled.div`
   position: absolute;
   top: 145px;
   left: 23px;
-  /* position: relative; */
-  /* top: 3; */
-  /* left: 15; */
   z-index: 200;
 `;

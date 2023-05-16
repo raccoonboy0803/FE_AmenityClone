@@ -35,7 +35,7 @@ export function getMonthDate(newDate, page = 0) {
       ),
     );
   }
-  console.log(monthDate);
+
   const week1 = monthDate.slice(0, 7);
   const week2 = monthDate.slice(7, 14);
   const week3 = monthDate.slice(14, 21);
