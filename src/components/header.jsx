@@ -41,6 +41,15 @@ function Header() {
     }
   })
 
+  const handleMypage = () => {
+    if (!isLogin) {
+      alert('로그인 후에 이용 가능합니다.')
+      navigate('/login')
+    } else {
+      navigate('/mypage')
+    }
+  }
+
   return (
     <>
       {scroll < 10 ? (
@@ -51,7 +60,7 @@ function Header() {
               <MemberNav>
                 <FaSearch />
               </MemberNav>
-              <MemberNav onClick={() => navigate('/mypage')}>
+              <MemberNav onClick={handleMypage}>
                 예약내역
               </MemberNav>
               {!isLogin ? (

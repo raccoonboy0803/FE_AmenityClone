@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import * as st from '../shared/styles';
 import { useNavigate } from 'react-router-dom';
 
 function Mypage() {
   let navigate = useNavigate();
+
+  useEffect(() => {
+    if (localStorage.getItem('userEmail') === null) {
+      alert('로그인 후에 이용 가능합니다.');
+      navigate('/login');
+    }
+  });
 
   return (
     <>
@@ -30,7 +37,9 @@ function Mypage() {
               <Text>최저가로 예약 가능한</Text>
               <Text>숙소들을 지금 만나세요!</Text>
             </TextCenter>
-            <MoreBtn onClick={() => navigate('/product/search')}>다양한 숙소 보러가기</MoreBtn>
+            <MoreBtn onClick={() => navigate('/product/search')}>
+              다양한 숙소 보러가기
+            </MoreBtn>
           </NotInfo>
         </MypageBg>
       </st.Background>
@@ -98,13 +107,13 @@ const TextCenter = styled.div`
 `;
 
 const MoreBtn = styled.button`
-    width: 200px;
-    height: 50px;
-    border: 2px solid #de383f;
-    background-color: white;
-    color: #de383f;
-    font-size: 0.95rem;
-    border-radius: 4px;
-    margin-top: 20px;
-    cursor: pointer;
-`
+  width: 200px;
+  height: 50px;
+  border: 2px solid #de383f;
+  background-color: white;
+  color: #de383f;
+  font-size: 0.95rem;
+  border-radius: 4px;
+  margin-top: 20px;
+  cursor: pointer;
+`;
