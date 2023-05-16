@@ -17,27 +17,27 @@ function NavIcons() {
     <NavBox>
       <NavIcon>
         <ImgBox name="motel" />
-        <NavP>모텔</NavP>
+        <NavText>모텔</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="hotel" onClick={hotelHandle} />
-        <NavP>호텔·리조트</NavP>
+        <NavText>호텔·리조트</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="pension" />
-        <NavP>펜션</NavP>
+        <NavText>펜션</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="guest" />
-        <NavP>게스트하우스</NavP>
+        <NavText>게스트하우스</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="camping" />
-        <NavP>캠핑·글램핑</NavP>
+        <NavText>캠핑·글램핑</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="travle" />
-        <NavP>해외 여행</NavP>
+        <NavText>해외 여행</NavText>
       </NavIcon>
     </NavBox>
   );
@@ -88,7 +88,7 @@ const ImgBox = styled.div`
   cursor: pointer;
 `;
 
-const NavP = styled.span`
+const NavText = styled.span`
   font-size: 1.1rem;
   color: gray;
 `;

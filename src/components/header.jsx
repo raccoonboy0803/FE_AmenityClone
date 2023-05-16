@@ -3,8 +3,15 @@ import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as st from '../shared/styles';
+import { useCookies } from 'react-cookie';
+
+import axios from '../api/axios';
 
 function Header() {
+  const [, , removeCookie] = useCookies(['login']);
+
+  const [isLogin, setIsLogin] = useState(false);
+
   let navigate = useNavigate();
 
   const [scroll, setScroll] = useState(0);
@@ -14,6 +21,25 @@ function Header() {
   useEffect(() => {
     window.addEventListener('scroll', updateScroll);
   });
+
+  const logout = async () => {
+    const userEmail = localStorage.getItem('userEmail')
+    axios.get(`api/user/logout/${userEmail}`);
+    alert('로그아웃 되었습니다.')
+    location.reload();
+    removeCookie('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userEmail');
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem('userEmail') === null) {
+      console.log('로그인:', isLogin)
+    } else {
+      setIsLogin(true)
+      console.log('로그인:', isLogin)
+    }
+  })
 
   return (
     <>
@@ -25,21 +51,35 @@ function Header() {
               <MemberNav>
                 <FaSearch />
               </MemberNav>
-              <MemberNav>예약내역</MemberNav>
-              <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
+              <MemberNav onClick={() => navigate('/mypage')}>
+                예약내역
+              </MemberNav>
+              {!isLogin ? (
+                <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
+              ) : (
+                <MemberNav onClick={logout}>로그아웃</MemberNav>
+              )}
             </MemberBox>
           </TitleBox>
         </HeaderBox>
       ) : (
         <HeaderBoxOther>
           <TitleBox>
-            <st.Logo style={{ color: '#de383f' }}>여기어떠니.</st.Logo>
+            <st.Logo onClick={() => navigate('/')} style={{ color: '#de383f' }}>
+              여기어떠니.
+            </st.Logo>
             <MemberBox>
-              <span>
+              <MemberNav>
                 <FaSearch />
-              </span>
-              <span>예약내역</span>
-              <span>로그인</span>
+              </MemberNav>
+              <MemberNav onClick={() => navigate('/mypage')}>
+                예약내역
+              </MemberNav>
+              {!isLogin ? (
+                <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
+              ) : (
+                <MemberNav onClick={logout}>로그아웃</MemberNav>
+              )}
             </MemberBox>
           </TitleBox>
         </HeaderBoxOther>
@@ -96,4 +136,7 @@ const MemberBox = styled.div`
 
 const MemberNav = styled.span`
   cursor: pointer;
+  &:hover {
+    filter: brightness(0.9);
+  }
 `;
