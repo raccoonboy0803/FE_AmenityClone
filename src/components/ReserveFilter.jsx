@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import single from '../images/icon_single.png';
 import singleCheck from '../images/icon_singleCheck.png';
@@ -11,6 +11,8 @@ import ondolCheck from '../images/icon_ondolCheck.png';
 import Calender from './Calender.jsx';
 import { getMonthDate } from './Calendar2';
 import { Calender3 } from './Calender3';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { calendarDate, calendarModal } from '../shared/atoms';
 
 const publicText = [
   { id: 0, value: '피트니스' },
@@ -50,27 +52,100 @@ const etcText = [
 ];
 
 const ReserveFilter = () => {
-  const [isCalender, setIsCalender] = useState(false);
+  // const [isCalender, setIsCalender] = useState(false);
+  const [isModalShow, setIsModalShow] = useRecoilState(calendarModal);
+  const [isChecked, setIsChecked] = useState([null]); // 베드 유형
+  const [people, setPeople] = useState(2); //인원
+  const cate = useRef('');
+
+  // const [amenityCommon, setAmenityCommon] = useState([]); //공통시설
+  const [formValue, setFormValue] = useState({
+    amenityType: 0, //호텔, 펜션
+    amenityCategory: '', //유형
+    amenityPeople: '', //인원
+    amenityVal: '', //호텔:베드타입 , 펜션:금액
+    amenityCommon: [], //공용시설
+    amenityIn: [], //객실 내 시설
+    amenityEtc: [], // 기타
+  });
+  const dateValue = useRecoilValue(calendarDate);
+  // console.log(dateValue.startDate);
+  // console.log(dateValue.endDate);
   const calenderHandle = () => {
-    setIsCalender((prev) => !prev);
+    setIsModalShow((prev) => !prev);
   };
-  const currentDate = new Date();
-  const res = getMonthDate(currentDate);
 
-  const calendarPick = () => {};
+  const peopleHandle = (direction) => {
+    if (people === 2 && direction === -1) {
+      return;
+    }
+    setPeople((prev) => prev + direction);
+    setFormValue({
+      ...formValue,
+      amenityPeople: people,
+    });
+  }; //인원
 
+  const checkboxHandle = (e) => {
+    const { name, value } = e.target;
+
+    if (e.target.checked === true) {
+      formValue[name].push(value);
+    } else {
+      formValue[name].filter((item) => item !== value);
+    }
+  }; //공통 내부 기타
+
+  const cateHandle = (e) => {
+    const { name, value } = e.target;
+    const input0 = document.getElementById('grade_0');
+    const input1 = document.getElementById('grade_1');
+    const input2 = document.getElementById('grade_2');
+    let handleArr = [input0, input1, input2];
+    for (let i = 0; i < handleArr.length; i++) {
+      if (handleArr[i] !== e.target) {
+        handleArr[i].checked = false;
+      }
+    }
+
+    setFormValue({
+      ...formValue,
+      [name]: value,
+    });
+  }; //유형
+
+  const amenityValHandle = (e) => {
+    const { name, value } = e.target;
+    const input0 = document.getElementById('single');
+    const input1 = document.getElementById('double');
+    const input2 = document.getElementById('twin');
+    const input3 = document.getElementById('ondol');
+    let handleArr = [input0, input1, input2, input3];
+    for (let i = 0; i < handleArr.length; i++) {
+      if (handleArr[i] !== e.target) {
+        handleArr[i].checked = false;
+      }
+    }
+    setFormValue({
+      ...formValue,
+      [name]: value,
+    });
+  }; //베드
+  console.log(formValue);
   return (
     <FilterWrap>
       <DateWrap>
         <h3>날짜</h3>
         <div onClick={calenderHandle}>
           <span>
-            <b>5.13 ~ 5.14</b>
-            <em>&nbsp;&nbsp;1박</em>
+            <b>
+              5.{dateValue.startDate}~ 5.{dateValue.endDate}
+            </b>
+            <em>&nbsp;&nbsp;{dateValue.endDate - dateValue.startDate}박</em>
           </span>
         </div>
       </DateWrap>
-      <CalenderWrap>{isCalender && <Calender />}</CalenderWrap>
+      <CalenderWrap>{isModalShow && <Calender />}</CalenderWrap>
 
       <DetailTitle>상세조건</DetailTitle>
       <BtnWrap>
@@ -79,17 +154,35 @@ const ReserveFilter = () => {
       </BtnWrap>
       <ListWrap>
         <strong>호텔 리조트 유형</strong>
-        <ul>
+        <ul ref={cate}>
           <li>
-            <input type="checkbox" id="grade_0" value="0" />
+            <input
+              type="checkbox"
+              id="grade_0"
+              value="0"
+              name="amenityCategory"
+              onClick={cateHandle}
+            />
             <label htmlFor="grade_0">5성급</label>
           </li>
           <li>
-            <input type="checkbox" id="grade_1" value="1" />
+            <input
+              type="checkbox"
+              id="grade_1"
+              value="1"
+              name="amenityCategory"
+              onClick={cateHandle}
+            />
             <label htmlFor="grade_1">특1급</label>
           </li>
           <li>
-            <input type="checkbox" id="grade_1" value="2" />
+            <input
+              type="checkbox"
+              id="grade_2"
+              value="2"
+              name="amenityCategory"
+              onClick={cateHandle}
+            />
             <label htmlFor="grade_2">특급</label>
           </li>
         </ul>
@@ -98,9 +191,9 @@ const ReserveFilter = () => {
         <input type="hidden" />
         <strong>인원</strong>
         <div>
-          <button />
-          <span>2</span>
-          <button />
+          <button onClick={() => peopleHandle(-1)} />
+          <span>{people}</span>
+          <button onClick={() => peopleHandle(+1)} />
         </div>
       </PeopleWrap>
       <BedWrap>
@@ -108,25 +201,53 @@ const ReserveFilter = () => {
         <div className="bedtype">
           <div>
             <div>
-              <BedBtn name="single" />
+              <BedBtn
+                id="single"
+                type="checkbox"
+                name="amenityVal"
+                value="0"
+                onChange={amenityValHandle}
+                // checked={isChecked?.includes('single')}
+              />
               <p>싱글</p>
             </div>
           </div>
           <div>
             <div>
-              <BedBtn name="double" />
+              <BedBtn
+                id="double"
+                type="checkbox"
+                name="amenityVal"
+                value="1"
+                onChange={amenityValHandle}
+                // checked={isChecked?.includes('double')}
+              />
               <p>더블</p>
             </div>
           </div>
           <div>
             <div>
-              <BedBtn name="twin" />
+              <BedBtn
+                id="twin"
+                type="checkbox"
+                name="amenityVal"
+                value="2"
+                onChange={amenityValHandle}
+                // checked={isChecked?.includes('twin')}
+              />
               <p>트윈</p>
             </div>
           </div>
           <div>
             <div>
-              <BedBtn name="ondol" />
+              <BedBtn
+                id="ondol"
+                type="checkbox"
+                name="amenityVal"
+                value="3"
+                onChange={amenityValHandle}
+                // checked={isChecked?.includes('ondol')}
+              />
               <p>온돌</p>
             </div>
           </div>
@@ -137,7 +258,13 @@ const ReserveFilter = () => {
         <ul>
           {publicText.map((item) => (
             <SelectList key={item.id}>
-              <input type="checkbox" id={`${item.value}lebel`} />
+              <input
+                type="checkbox"
+                id={`${item.value}lebel`}
+                value={item.id}
+                name="amenityCommon"
+                onClick={checkboxHandle}
+              />
               <label htmlFor={`${item.value}lebel`}>{item.value}</label>
             </SelectList>
           ))}
@@ -148,7 +275,13 @@ const ReserveFilter = () => {
         <ul>
           {facilityText.map((item) => (
             <SelectList key={item.id}>
-              <input type="checkbox" id={`${item.value}lebel`} />
+              <input
+                type="checkbox"
+                id={`${item.value}lebel`}
+                name="amenityIn"
+                value={item.id}
+                onClick={checkboxHandle}
+              />
               <label htmlFor={`${item.value}lebel`}>{item.value}</label>
             </SelectList>
           ))}
@@ -159,7 +292,13 @@ const ReserveFilter = () => {
         <ul>
           {etcText.map((item) => (
             <SelectList key={item.id}>
-              <input type="checkbox" id={`${item.value}lebel`} />
+              <input
+                type="checkbox"
+                id={`${item.value}lebel`}
+                name="amenityEtc"
+                value={item.id}
+                onClick={checkboxHandle}
+              />
               <label htmlFor={`${item.value}lebel`}>{item.value}</label>
             </SelectList>
           ))}
@@ -424,22 +563,35 @@ const PublicSection = styled.section`
     padding: 0;
   }
 `;
-const BedBtn = styled('div')`
-  margin: 0;
+
+const BedBtn = styled('input')`
+  margin: 0 10px 0 0;
   width: 48px;
   height: 24px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
+  appearance: none;
 
   ${(props) =>
-    props.name === 'single'
+    props.id === 'single'
       ? `background-image: url(${single});`
-      : props.name === 'double'
+      : props.id === 'double'
       ? `background-image: url(${double});`
-      : props.name === 'twin'
+      : props.id === 'twin'
       ? `background-image: url(${twin});`
       : `background-image: url(${ondol});`}
+
+  &:checked {
+    ${(props) =>
+      props.id === 'single'
+        ? `background-image: url(${singleCheck});`
+        : props.id === 'double'
+        ? `background-image: url(${doubleCheck});`
+        : props.id === 'twin'
+        ? `background-image: url(${twinCheck});`
+        : `background-image: url(${ondolCheck});`}
+  }
 `;
 
 const SelectList = styled.li`

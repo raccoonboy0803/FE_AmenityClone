@@ -1,9 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { getMonthDate, getNewDateObj } from './Calendar2';
-import { startOfMonth, endOfMonth, startOfWeek, endOfWeek } from 'date-fns';
-import { isSameMonth, isSameDay, addDays, parse } from 'date-fns';
-import { format, addMonths, subMonths } from 'date-fns';
+import { useRecoilState } from 'recoil';
+import { calendarDate, calendarModal } from '../shared/atoms';
 
 export const CalendarDate = ({
   setStartDate,
@@ -12,15 +11,8 @@ export const CalendarDate = ({
   endDate,
 }) => {
   const newDate = getNewDateObj(new Date());
-  // console.log(newDate.date);
+
   const response = getMonthDate(newDate);
-  // const monthStart = startOfMonth(currentMonth);
-  // const monthEnd = endOfMonth(monthStart);
-  // const startDate = startOfWeek(monthStart);
-  // const endDate = endOfWeek(monthEnd);
-  // console.log(typeof response.date[0][1].date);
-  // let day = startDate;
-  // const cloneDay = day;
 
   const current = new Date().getDate();
   const onDateClick = (e) => {
@@ -60,6 +52,7 @@ export const CalendarDate = ({
       res[i].style.background = 'white';
     }
   }, [startDate, endDate]);
+
   useEffect(() => {
     const res = document.getElementsByTagName('td');
     res[startDate].style.background = 'rgb(242, 17, 76)';
@@ -163,11 +156,30 @@ const CalDataWrap = styled.table`
 `;
 
 const Calender = ({ props }) => {
+  const [recoilState, setRecoilDate] = useRecoilState(calendarDate);
+  const [modalShow, setModalShow] = useRecoilState(calendarModal);
   const newDate = getNewDateObj(new Date());
   const response = getMonthDate(newDate);
 
-  const [startDate, setStartDate] = useState(new Date().getDate());
-  const [endDate, setEndDate] = useState(new Date().getDate() + 1);
+  if (recoilState.startDate === 0) {
+  }
+  const [startDate, setStartDate] = useState(
+    recoilState.startDate === new Date().getDate()
+      ? new Date().getDate()
+      : recoilState.startDate,
+  );
+  const [endDate, setEndDate] = useState(
+    recoilState.endDate === new Date().getDate() + 1
+      ? new Date().getDate() + 1
+      : recoilState.endDate,
+  );
+  console.log(startDate);
+  console.log(endDate);
+
+  const dateSelect = () => {
+    setRecoilDate({ startDate, endDate });
+    setModalShow(false);
+  };
 
   return (
     <CalenderWrap>
@@ -187,7 +199,7 @@ const Calender = ({ props }) => {
         startDate={startDate}
         endDate={endDate}
       />
-      <button onClick={props}>선택 완료</button>
+      <button onClick={dateSelect}>선택 완료</button>
     </CalenderWrap>
   );
 };
