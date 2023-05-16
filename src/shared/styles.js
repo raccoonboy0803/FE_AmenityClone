@@ -31,13 +31,14 @@ export const SignBox = styled.div`
   align-items: center;
 `;
 
-export const SignButton = styled.div`
+export const SignButton = styled.button`
 width: 330px;
 height: 60px;
 margin-top: 20px;
 background-color: ${(props) =>
   props.type === 'kakao' ? '#F7E600' : '#de383f'};
 border-radius: 4px;
+border: none;
 display: flex;
 align-items: center;
 justify-content: center;
