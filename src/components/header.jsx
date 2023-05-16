@@ -26,7 +26,7 @@ function Header() {
               <MemberNav>
                 <FaSearch />
               </MemberNav>
-              <MemberNav onClick={() => navigate('/reservation')}>예약내역</MemberNav>
+              <MemberNav onClick={() => navigate('/mypage')}>예약내역</MemberNav>
               <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
             </MemberBox>
           </TitleBox>
@@ -39,7 +39,7 @@ function Header() {
               <MemberNav>
                 <FaSearch />
               </MemberNav>
-              <MemberNav onClick={() => navigate('/reservation')}>예약내역</MemberNav>
+              <MemberNav onClick={() => navigate('/mypage')}>예약내역</MemberNav>
               <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
             </MemberBox>
           </TitleBox>
