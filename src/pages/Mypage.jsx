@@ -1,13 +1,13 @@
 import React from 'react';
-import Header from '../components/Header';
 import styled from 'styled-components';
 import * as st from '../shared/styles';
+import { useNavigate } from 'react-router-dom';
 
 function Mypage() {
+  let navigate = useNavigate();
+
   return (
     <>
-      <Header />
-
       <MyInfoBox>
         <MyInfo>
           <MyInfoH>내정보</MyInfoH>
@@ -30,7 +30,7 @@ function Mypage() {
               <Text>최저가로 예약 가능한</Text>
               <Text>숙소들을 지금 만나세요!</Text>
             </TextCenter>
-            <MoreBtn>다양한 숙소 보러가기</MoreBtn>
+            <MoreBtn onClick={() => navigate('/product/search')}>다양한 숙소 보러가기</MoreBtn>
           </NotInfo>
         </MypageBg>
       </st.Background>
@@ -47,6 +47,7 @@ const MyInfoBox = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-top: -80px;
 `;
 
 const MyInfo = styled.div`

@@ -10,7 +10,7 @@ import { useCookies } from 'react-cookie';
 import axios from '../api/axios';
 
 function Login() {
-  const [, setCookie, ] = useCookies(['login']);
+  const [, setCookie] = useCookies(['login']);
 
   const LOGIN_URL = '/api/user/login';
 
@@ -91,8 +91,9 @@ function Login() {
           </st.SignP>
         </st.SignButton>
 
-        <MiddleLine />
-        <MiddleText>또는</MiddleText>
+          <MiddleLine />
+          <MiddleText>또는</MiddleText>
+
         <form onSubmit={handleSubmit}>
           <div className={userEmail && !isEmail ? 'focus' : 'signInputBox'}>
             <MdEmail className="icon" />
@@ -168,7 +169,7 @@ const MiddleText = styled.div`
   height: 30px;
   background-color: white;
   position: absolute;
-  top: 285px;
+  top: 390px;
   color: silver;
   font-weight: bolder;
   text-align: center;
@@ -188,3 +189,11 @@ const SignInput = styled.input`
     outline: none;
   }
 `;
+
+const MiddleBox = styled.div`
+  width: 330px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+`

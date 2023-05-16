@@ -92,6 +92,8 @@ export default Header;
 
 const HeaderBox = styled.div`
   position: fixed;
+  top: 0;
+
   width: 100%;
   height: 72px;
   background-color: #de383f;
@@ -104,6 +106,7 @@ const HeaderBox = styled.div`
 
 const HeaderBoxOther = styled.div`
   position: fixed;
+  top: 0;
   width: 100%;
   height: 72px;
   background-color: white;

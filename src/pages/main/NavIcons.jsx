@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import motel from '../../images/ico_category_01.png';
 import hotel from '../../images/ico_category_02.png';
@@ -8,31 +9,35 @@ import camping from '../../images/ico_category_05.png';
 import travle from '../../images/ico_category_09.png';
 
 function NavIcons() {
+  const navigate = useNavigate();
+  const hotelHandle = () => {
+    navigate('/product/search');
+  };
   return (
     <NavBox>
       <NavIcon>
         <ImgBox name="motel" />
-        <NavP>모텔</NavP>
+        <NavText>모텔</NavText>
       </NavIcon>
       <NavIcon>
-        <ImgBox name="hotel" />
-        <NavP>호텔·리조트</NavP>
+        <ImgBox name="hotel" onClick={hotelHandle} />
+        <NavText>호텔·리조트</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="pension" />
-        <NavP>펜션</NavP>
+        <NavText>펜션</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="guest" />
-        <NavP>게스트하우스</NavP>
+        <NavText>게스트하우스</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="camping" />
-        <NavP>캠핑·글램핑</NavP>
+        <NavText>캠핑·글램핑</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="travle" />
-        <NavP>해외 여행</NavP>
+        <NavText>해외 여행</NavText>
       </NavIcon>
     </NavBox>
   );
@@ -62,7 +67,7 @@ const ImgBox = styled.div`
   width: 80px;
   height: 80px;
   background-image: url(${(props) =>
-    props.name == 'motel'
+    props.name === 'motel'
       ? `${motel}`
       : (props) =>
           props.name === 'hotel'
@@ -83,7 +88,7 @@ const ImgBox = styled.div`
   cursor: pointer;
 `;
 
-const NavP = styled.span`
-    font-size: 1.1rem;
-    color: gray;
-`
+const NavText = styled.span`
+  font-size: 1.1rem;
+  color: gray;
+`;
