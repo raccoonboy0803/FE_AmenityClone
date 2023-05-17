@@ -31,7 +31,7 @@ function Reservation() {
             <ReservP>예약자 이름</ReservP>
             <Input placeholder="체크인시 필요한 정보입니다." />
             <ReservP>이메일 주소</ReservP>
-            <Input placeholder="체크인시 필요한 정보입니다." />\
+            <Input placeholder="체크인시 필요한 정보입니다." />
             <div style={{ height: '50px' }}></div>
             <ReservP title="title">결제수단 선택</ReservP>
             <SelectPayment />

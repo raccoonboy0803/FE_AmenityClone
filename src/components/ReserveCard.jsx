@@ -3,10 +3,6 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 const ReserveCard = ({ data }) => {
-  // console.log(data);
-  // console.log(data.data.amenityId);
-  // console.log(data.amenityId);
-  // console.log(data.amenityId);
   return (
     <ListWrap>
       <ProductList>
@@ -18,7 +14,6 @@ const ReserveCard = ({ data }) => {
             <div>
               <p>{data.amenityCategory}</p>
               <strong>{data.amenityNm}</strong>
-              {/* <p className="secondP">10.0 최고에요 (13)</p> */}
               <p className="lastP">{data.amenityAddr2}</p>
             </div>
           </div>
@@ -33,19 +28,19 @@ export default ReserveCard;
 const ListWrap = styled.div`
   display: inline-block;
   width: 100%;
+  font-size: 0px;
 `;
 
 const ProductList = styled.li`
   overflow: hidden;
   position: relative;
-  height: 280px;
+  height: 260px;
   list-style: none;
   margin: 0;
   padding: 0;
 
   a {
     display: block;
-    height: 280px;
     color: #fff;
     text-decoration: none;
 
@@ -55,7 +50,9 @@ const ProductList = styled.li`
       left: 0;
       /* z-index: 1; */
       width: 100%;
-      min-height: 280px;
+      height: 100%;
+
+      /* min-height: 280px; */
     }
     div {
       position: absolute;

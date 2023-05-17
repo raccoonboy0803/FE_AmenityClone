@@ -23,37 +23,44 @@ function Reserve() {
     return response;
   };
 
-  const { data, error } = useQuery(
+  const { data, error, isLoading } = useQuery(
     'fetchData',
     amenityType === '0' ? fetchDataH : fetchDataP,
   );
-  console.log(data);
-  //amenityNm
 
   return (
-    <div style={{ display: 'flex', width: '75%', margin: '0 auto' }}>
+    <div
+      style={{
+        width: '950px',
+        display: 'flex',
+        margin: '0 auto',
+      }}
+    >
       <ReserveFilter />
-      <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-        <div style={{ marginBottom: '20px' }}>
-          <TopSort>
-            <div>
-              <button>낮은 가격 순</button>
-              <button>높은 가격 순</button>
-            </div>
-          </TopSort>
+      <div
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          fontSize: '0px',
+        }}
+      >
+        <div>
           <ProductWrap>
             <div>
               <h3>숙소 리스트</h3>
             </div>
           </ProductWrap>
         </div>
-        {isReset
-          ? data?.data.data.map((item) => (
-              <ReserveCard key={item.amenityId} data={item} />
-            ))
-          : filterData?.map((item) => (
-              <ReserveCard key={item.amenityId} data={item} />
-            ))}
+        <div style={{ width: '100%' }}>
+          {isReset
+            ? data?.data.data.map((item) => (
+                <ReserveCard key={item.amenityId} data={item} />
+              ))
+            : filterData?.map((item) => (
+                <ReserveCard key={item.amenityId} data={item} />
+              ))}
+        </div>
       </div>
     </div>
   );
@@ -65,12 +72,10 @@ const TopSort = styled.div`
   width: 100%;
   display: inline-block;
   position: relative;
-  /* top: 40px; */
   overflow: hidden;
   padding: 0;
   background: #fff;
   box-shadow: none;
-  /* text-align: center; */
 
   div {
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -107,15 +112,3 @@ const ProductWrap = styled.div`
     }
   }
 `;
-
-// const ToggleInput = styled.input`
-//   ${tw`
-//     focus:outline-none
-//     w-6
-//     h-6
-//     rounded-full
-//     absolute
-//     bg-red-800
-//    `}
-// `;
-// // 사용 예시
