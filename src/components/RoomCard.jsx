@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import {
+  calendarDate,
+  calendarModal,
+  reserveData,
+  roomIdcheck,
+} from '../shared/atoms';
+import { useNavigate } from 'react-router-dom';
 
-const RoomCard = ({ data }) => {
-  console.log(data);
+const RoomCard = ({ data, amenityNm, id }) => {
   const { roomNm, roomPrice, roomImgDtoList, roomChk } = data;
-  console.log(roomImgDtoList);
+  const [reserveSource, setReserveSource] = useRecoilState(reserveData);
+  const [roomsource, setRoomsource] = useRecoilState(roomIdcheck);
+  const dateSource = useRecoilValue(calendarDate);
+  const navigate = useNavigate();
+
+  // useEffect(() => {
+  //   setReserveSource({
+  //     ...reserveSource,
+  //     roomNm,
+  //     roomPrice,
+  //     startDate: dateSource.startDate,
+  //     endDate: dateSource.endDate,
+  //     amenityNm,
+  //   });
+  // }, []);
+
+  const goReservation = () => {
+    navigate('/reservation');
+    setRoomsource(id);
+  };
+  // console.log(roomImgDtoList);
   return (
     <RoomWrap>
       <p className="Roompara">
@@ -28,7 +55,7 @@ const RoomCard = ({ data }) => {
         </InfoPrice>
       </CardInfo>
       {roomChk === '0' ? (
-        <ReserveBtn>예약</ReserveBtn>
+        <ReserveBtn onClick={goReservation}>예약</ReserveBtn>
       ) : (
         <ReserveNotBtn>예약만료</ReserveNotBtn>
       )}

@@ -5,10 +5,15 @@ import * as st from '../shared/styles';
 import SelectPayment from './reservation/SelectPayment';
 import CheckedAgree from './reservation/CheckedAgree';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { reserveData, reserverT, roomIdcheck } from '../shared/atoms';
 
 function Reservation() {
   let navigate = useNavigate();
-  
+
+  const [reserveD, setReserveD] = useRecoilState(reserverT); //해당 숙소 데이터
+  const [roomid, setRoomid] = useRecoilState(roomIdcheck); //룸 id
+
   useEffect(() => {
     if (localStorage.getItem('userEmail') === null) {
       alert('로그인 후에 이용 가능합니다.');
@@ -25,12 +30,9 @@ function Reservation() {
             <div style={{ marginTop: '40px' }}></div>
             <ReservP>예약자 이름</ReservP>
             <Input placeholder="체크인시 필요한 정보입니다." />
-
             <ReservP>이메일 주소</ReservP>
-            <Input placeholder="체크인시 필요한 정보입니다." />
-
+            <Input placeholder="체크인시 필요한 정보입니다." />\
             <div style={{ height: '50px' }}></div>
-
             <ReservP title="title">결제수단 선택</ReservP>
             <SelectPayment />
             <CheckedAgree />

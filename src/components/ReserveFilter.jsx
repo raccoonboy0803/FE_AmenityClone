@@ -128,20 +128,20 @@ const ReserveFilter = () => {
     setFilterRes([]);
     setFilterPrev({});
     setIsFilterReset(true);
-    // setFormValue({
-    //   amenityCategory: '', //유형
-    //   amenityPeople: '', //인원
-    //   amenityVal: '', //호텔:베드타입 , 펜션:금액
-    //   amenityCommon: [], //공용시설
-    //   amenityIn: [], //객실 내 시설
-    //   amenityEtc: [], // 기타
-    // });
+    setFormValue({
+      amenityCategory: '', //유형
+      amenityPeople: '', //인원
+      amenityVal: '', //호텔:베드타입 , 펜션:금액
+      amenityCommon: [], //공용시설
+      amenityIn: [], //객실 내 시설
+      amenityEtc: [], // 기타
+    });
     // setPeople(2);
     window.location.reload();
   };
 
   const formHandle = () => {};
-  console.log(formValue);
+  // console.log(formValue);
   return (
     <FilterWrap>
       <DateWrap>

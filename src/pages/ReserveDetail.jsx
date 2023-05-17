@@ -10,20 +10,31 @@ import { useQuery } from 'react-query';
 import axios from '../api/axios';
 import Cookies from 'js-cookie';
 // import axios from 'axios';
-
+import {
+  calendarDate,
+  calendarModal,
+  reserveData,
+  reserverT,
+} from '../shared/atoms';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 const ReserveDetail = () => {
   const { amenityId } = useParams();
-  console.log(amenityId);
+  // console.log(amenityId);
   const token = Cookies.get('accessToken');
   const refreshtoken = Cookies.get('refreshToken');
-  console.log('acess:::::', token);
-  console.log('refresh::::;:', refreshtoken);
+  const [reserveSource, setReserveSource] = useRecoilState(reserveData);
+  const [isModalShow, setIsModalShow] = useRecoilState(calendarModal);
+  const [reserveR, setReserveR] = useRecoilState(reserverT);
+  const calendarsource = useRecoilValue(calendarDate);
+  // console.log('acess:::::', token);
+  // console.log('refresh::::;:', refreshtoken);
   const detailData = async () => {
-    const response = await axios.get(
-      `http://3.36.124.7:8080/api/amenity/detail/${amenityId}`,
-    );
+    const response = await axios.get(`/api/amenity/detail/${amenityId}`);
     return response;
   };
+
+  // console.log(calendarsource.month);
+  // console.log(calendarsource.year);
 
   // headers: {
   //   ACCESS_KEY: `Bearer ${token}`,
@@ -31,6 +42,16 @@ const ReserveDetail = () => {
   // },
 
   const { isLoading, data, error } = useQuery('datailgo', detailData);
+  // !isLoading && setReserveR(data);
+
+  useEffect(() => {
+    setReserveR(data);
+  }, []);
+  // console.log(isLoading);
+  // console.log(data?.data.data);
+  // console.log(data?.data.amenityImgDtoList);
+  // console.log(error);
+  console.log(data);
 
   const {
     amenityCategory,
@@ -38,11 +59,16 @@ const ReserveDetail = () => {
     amenityNm,
     roomDtoList,
     amenityImgDtoList,
-  } = !isLoading && data.data;
+  } = !isLoading && data?.data.data;
+  // console.log(amenityImgDtoList);
 
-  const carousel = useRef();
+  const calenderHandle = () => {
+    setIsModalShow((prev) => !prev);
+  };
+
   const [index, setIndex] = useState(0);
   const [btnActive, setBtnActive] = useState('reserve');
+
   const listSize = 4;
   const prevBtn = () => {
     if (index < 0) {
@@ -83,6 +109,19 @@ const ReserveDetail = () => {
       return null;
     });
   }, [btnActive]);
+
+  const handleRoomCard = (e) => {
+    const { roomNm, roomPrice } = e.target;
+
+    setReserveSource({
+      ...reserveSource,
+      roomNm,
+      roomPrice,
+      startDate: dateSource.startDate,
+      endDate: dateSource.endDate,
+      amenityNm,
+    });
+  };
 
   return (
     <DetailWrap>
@@ -138,14 +177,28 @@ const ReserveDetail = () => {
       </DetailTab>
       <DetailForm>
         <RoomInfo>
-          <BtnData>
-            <span>5.15 ~ 5.16</span>
-            <span>&nbsp;·&nbsp;1박</span>
+          <BtnData onClick={calenderHandle}>
+            <span>
+              {calendarsource.month}.{calendarsource.startDate} ~
+              {calendarsource.month}.{calendarsource.endDate}
+            </span>
+            <span>
+              &nbsp;·&nbsp;{calendarsource.endDate - calendarsource.startDate}박
+            </span>
           </BtnData>
-          <Calender />
+          <CalenderWrap>{isModalShow && <Calender />}</CalenderWrap>
         </RoomInfo>
         {roomDtoList?.map((item, index) => (
-          <RoomCard data={item} key={index} />
+          <RoomCard
+            id={item.roomId}
+            data={item}
+            key={item.roomNm}
+            roomNm={item.roomNm}
+            roomPrice={item.roomPrice}
+            // roomUrl={item.roomImgDtoList.roomUrl}
+            amenityNm={amenityNm}
+            onClick={() => handleRoomCard}
+          />
         ))}
       </DetailForm>
     </DetailWrap>
@@ -307,7 +360,7 @@ const DetailTab = styled.div`
     color: rgba(0, 0, 0, 0.38);
   }
 `;
-const DetailForm = styled.form``;
+const DetailForm = styled.div``;
 
 const RoomInfo = styled.article`
   width: 962px;
@@ -346,4 +399,10 @@ const BtnData = styled.div`
       no-repeat;
     background-size: 24px auto;
   }
+`;
+const CalenderWrap = styled.div`
+  position: absolute;
+  top: 101%;
+  left: 15%;
+  z-index: 200;
 `;

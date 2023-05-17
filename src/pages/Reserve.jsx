@@ -4,19 +4,14 @@ import { useParams } from 'react-router-dom';
 import ReserveFilter from '../components/ReserveFilter';
 import ReserveCard from '../components/ReserveCard';
 import { useQuery } from 'react-query';
-import { useCookies } from 'react-cookie';
 import axios from '../api/axios';
-import { filterResponse, resetBtnCheck } from '../shared/atoms';
-import { useRecoilValue, useRecoilState } from 'recoil';
+import { filterResponse, resetBtnCheck, reserveData } from '../shared/atoms';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 
 function Reserve() {
   const { amenityType } = useParams();
   const filterData = useRecoilValue(filterResponse);
   const isReset = useRecoilValue(resetBtnCheck);
-
-  console.log(filterData);
-
-  // const [cookies, setCookie] = useCookies(['login']);
 
   const fetchDataH = async () => {
     const response = await axios.get(`/api/amenity/0`);
@@ -33,6 +28,7 @@ function Reserve() {
     amenityType === '0' ? fetchDataH : fetchDataP,
   );
   console.log(data);
+  //amenityNm
 
   return (
     <div style={{ display: 'flex', width: '75%', margin: '0 auto' }}>
