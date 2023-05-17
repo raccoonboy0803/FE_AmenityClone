@@ -4,22 +4,35 @@ import { useState, useRef, useEffect } from 'react';
 import caroBtn from '../images/icon_prev_btn.png';
 import Calender from '../components/Calender';
 import RoomCard from '../components/RoomCard';
-import { api } from '../api/axios';
+// import { api } from '../api/axios';
 import { useQuery } from 'react-query';
+import { auth } from '../api/axios';
+import axios from '../api/axios';
+import Cookies from 'js-cookie';
+
 const ReserveDetail = () => {
   const { amenityId } = useParams();
   console.log(amenityId);
-  // const intId = Number(amenityId);
-  // console.log(intId);
+  const token = Cookies.get('accessToken');
+  const refreshtoken = Cookies.get('refreshToken');
+  console.log('acess:::::', token);
+  console.log('refresh::::;:', refreshtoken);
   const detailData = async () => {
-    const response = await api.get(`/api/amenity/detail/${amenityId}`);
+    const response = await axios.get(`/api/amenity/detail/${amenityId}`);
+    // {
+    //   headers: {
+    //     ACCESS_KEY: `Bearer ${token}`,
+    //     REFRESH_KEY: `Bearer ${refreshtoken}`,
+    //   },
+    // }
     return response;
   };
-  const { isLoading, data, error } = useQuery('datailData', detailData);
+
+  const { isLoading, data, error } = useQuery('datailgo', detailData);
   console.log(isLoading);
-  console.log(data);
+  // console.log(data);
   console.log(error);
-  // console.log(data && data);
+  console.log(data && data);
   // console.log(data?.data.data);
 
   const {
@@ -29,6 +42,7 @@ const ReserveDetail = () => {
     roomDtoList,
     amenityImgDtoList,
   } = data?.data.data;
+
   const carousel = useRef();
   const [index, setIndex] = useState(0);
   const [btnActive, setBtnActive] = useState('reserve');
@@ -131,7 +145,7 @@ const ReserveDetail = () => {
             <span>5.15 ~ 5.16</span>
             <span>&nbsp;·&nbsp;1박</span>
           </BtnData>
-          {/* <Calender /> */}
+          <Calender />
         </RoomInfo>
         {roomDtoList.map((item) => (
           <RoomCard data={item} />

@@ -4,18 +4,21 @@ import { useParams } from 'react-router-dom';
 import ReserveFilter from '../components/ReserveFilter';
 import ReserveCard from '../components/ReserveCard';
 import { useQuery } from 'react-query';
-import { api } from '../api/axios';
+import { useCookies } from 'react-cookie';
+import axios from '../api/axios';
+
 function Reserve() {
   const { amenityType } = useParams();
-  // console.log(amenityType);
+
+  // const [cookies, setCookie] = useCookies(['login']);
 
   const fetchDataH = async () => {
-    const response = await api.get(`/api/amenity/0`);
+    const response = await axios.get(`/api/amenity/0`);
     return response;
   };
 
   const fetchDataP = async () => {
-    const response = await api.get(`/api/amenity/1`);
+    const response = await axios.get(`/api/amenity/1`);
     return response;
   };
 

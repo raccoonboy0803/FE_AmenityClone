@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Header from '../components/Header';
 import mainImage from '../images/mainspot_2305.png';
 import appimage from '../images/bg_appdown.png';
 import google from '../images/gooleplay.png';
@@ -65,9 +64,9 @@ const AppImage = styled.div`
 const AppDown = styled.div`
   width: 180px;
   height: 70px;
-  /* background-image: url(${(props) =>
-    props.app === 'google' ? `${google}` : `${apple}`}); */
   background-size: contain;
   background-repeat: no-repeat;
+  background-image: url(${(props) =>
+    props.app === 'google' ? `${google}` : `${apple}`});
   cursor: pointer;
 `;

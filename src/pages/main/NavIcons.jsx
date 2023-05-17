@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import motel from '../../images/ico_category_01.png';
 import hotel from '../../images/ico_category_02.png';
@@ -9,7 +9,6 @@ import camping from '../../images/ico_category_05.png';
 import travle from '../../images/ico_category_09.png';
 
 function NavIcons() {
-  const { amenityType } = useParams();
   const navigate = useNavigate();
   const hotelHandle = () => {
     navigate(`/api/amenity/0`);
@@ -17,34 +16,32 @@ function NavIcons() {
   const pansionHandle = () => {
     navigate(`/api/amenity/1`);
   };
-  // const pensionHandle = () => {
-  //   navigate('/api/amenity/1');
-  // };
+
   return (
     <NavBox>
       <NavIcon>
         <ImgBox name="motel" />
-        <NavP>모텔</NavP>
+        <NavText>모텔</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="hotel" onClick={hotelHandle} />
-        <NavP>호텔·리조트</NavP>
+        <NavText>호텔·리조트</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="pension" onClick={pansionHandle} />
-        <NavP>펜션</NavP>
+        <NavText>펜션</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="guest" />
-        <NavP>게스트하우스</NavP>
+        <NavText>게스트하우스</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="camping" />
-        <NavP>캠핑·글램핑</NavP>
+        <NavText>캠핑·글램핑</NavText>
       </NavIcon>
       <NavIcon>
         <ImgBox name="travle" />
-        <NavP>해외 여행</NavP>
+        <NavText>해외 여행</NavText>
       </NavIcon>
     </NavBox>
   );
@@ -95,7 +92,7 @@ const ImgBox = styled.div`
   cursor: pointer;
 `;
 
-const NavP = styled.span`
+const NavText = styled.span`
   font-size: 1.1rem;
   color: gray;
 `;
