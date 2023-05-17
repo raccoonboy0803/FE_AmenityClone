@@ -9,7 +9,6 @@ import twinCheck from '../images/icon_twinCheck.png';
 import ondol from '../images/icon_ondol.png';
 import ondolCheck from '../images/icon_ondolCheck.png';
 import Calender from './Calender.jsx';
-import { getMonthDate } from './Calendar2';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { calendarDate, calendarModal } from '../shared/atoms';
 import {
@@ -20,26 +19,23 @@ import {
   etcText,
   etcTextP,
 } from '../shared/filterData.js';
-import { isRouteErrorResponse, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import axios from '../api/axios';
-import { useQuery } from 'react-query';
 import { filterResponse, resetBtnCheck } from '../shared/atoms';
 import { filterInput } from '../shared/atoms';
 
 const ReserveFilter = () => {
   const { amenityType } = useParams();
-
-  // const [isCalender, setIsCalender] = useState(false);
   const [isModalShow, setIsModalShow] = useRecoilState(calendarModal);
   const [filterRes, setFilterRes] = useRecoilState(filterResponse);
   const [isFilterReset, setIsFilterReset] = useRecoilState(resetBtnCheck);
   const [filterPrev, setFilterPrev] = useRecoilState(filterInput);
-  const [isBedCheck, setIsBedCheck] = useState([false, false, false, false]); // 베드 유형
   const [people, setPeople] = useState(2); //인원
   const cate = useRef('');
 
-  // const [amenityCommon, setAmenityCommon] = useState([]); //공통시설
   const [formValue, setFormValue] = useState({
+    amenitySdat: '',
+    amenityEdat: '',
     amenityType: Number(amenityType), //호텔, 펜션
     amenityCategory: '', //유형
     amenityPeople: '', //인원
@@ -49,8 +45,7 @@ const ReserveFilter = () => {
     amenityEtc: [], // 기타
   });
   const dateValue = useRecoilValue(calendarDate);
-  // console.log(dateValue.startDate);
-  // console.log(dateValue.endDate);
+
   const calenderHandle = () => {
     setIsModalShow((prev) => !prev);
   };
@@ -87,7 +82,6 @@ const ReserveFilter = () => {
         handleArr[i].checked = false;
       }
     }
-
     setFormValue({
       ...formValue,
       [name]: value,
@@ -113,6 +107,11 @@ const ReserveFilter = () => {
   }; //베드
 
   const filterHandle = async () => {
+    setFormValue({
+      ...formValue,
+      amenitySdat: dateValue.start,
+      amenityEdat: dateValue.end,
+    });
     try {
       await axios
         .post('/api/amenity/filterAmenity', formValue)
@@ -121,7 +120,7 @@ const ReserveFilter = () => {
       setFilterPrev(formValue);
       setIsFilterReset(false);
     } catch (error) {
-      console.log('에러다아:::', error);
+      console.log(error);
     }
   };
   const filterReset = () => {
@@ -129,6 +128,12 @@ const ReserveFilter = () => {
     setFilterPrev({});
     setIsFilterReset(true);
     setFormValue({
+      amenitySdat: `${new Date().getFullYear()}-0${
+        new Date().getMonth() + 1
+      }-${new Date().getDate()}`,
+      amenityEdat: `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${
+        new Date().getDate() + 1
+      }`,
       amenityCategory: '', //유형
       amenityPeople: '', //인원
       amenityVal: '', //호텔:베드타입 , 펜션:금액
@@ -136,11 +141,8 @@ const ReserveFilter = () => {
       amenityIn: [], //객실 내 시설
       amenityEtc: [], // 기타
     });
-    // setPeople(2);
     window.location.reload();
   };
-
-  const formHandle = () => {};
   // console.log(formValue);
   return (
     <FilterWrap>

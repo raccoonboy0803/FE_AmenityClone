@@ -7,6 +7,12 @@ export const calendarDate = atom({
     month: new Date().getMonth() + 1,
     startDate: new Date().getDate(),
     endDate: new Date().getDate() + 1,
+    start: `${new Date().getFullYear()}-0${
+      new Date().getMonth() + 1
+    }-${new Date().getDate()}`,
+    end: `${new Date().getFullYear()}-0${new Date().getMonth() + 1}-${
+      new Date().getDate() + 1
+    }`,
   },
 });
 

@@ -120,7 +120,7 @@ function Reservation() {
                 <ReservP pay="pay">{roomFilter?.roomNm}</ReservP>
               </PayBox>
 
-              {/* <PayBox>
+            <PayBox>
               <ReservP>체크인</ReservP>
               <ReservP pay="pay">05.15 월 15:00</ReservP>
             </PayBox>
