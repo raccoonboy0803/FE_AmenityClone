@@ -16,29 +16,14 @@ const RoomCard = ({ data, amenityNm, id }) => {
   const dateSource = useRecoilValue(calendarDate);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   setReserveSource({
-  //     ...reserveSource,
-  //     roomNm,
-  //     roomPrice,
-  //     startDate: dateSource.startDate,
-  //     endDate: dateSource.endDate,
-  //     amenityNm,
-  //   });
-  // }, []);
-
   const goReservation = () => {
     navigate('/reservation');
     setRoomsource(id);
   };
-  // console.log(roomImgDtoList);
+
   return (
     <RoomWrap>
       <p className="Roompara">
-        {/* <img
-          src="//image.goodchoice.kr/resize_370x220/affiliate/2019/07/16/5d2d61a54e745.jpg"
-          alt="roomImg"
-        /> */}
         {roomImgDtoList.map((item, index) => (
           <img src={item.roomUrl} key={index} />
         ))}
@@ -48,7 +33,6 @@ const RoomCard = ({ data, amenityNm, id }) => {
         <InfoPrice>
           <strong>가격</strong>
           <div>
-            {/* <p className="beforePrice">251,000</p> */}
             <p className="afterPrice">{roomPrice}원</p>
           </div>
           <UseBtn>객실 이용 안내</UseBtn>
@@ -74,7 +58,8 @@ const RoomWrap = styled.div`
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 4px;
   box-sizing: border-box;
-  height: 270px;
+  height: 247px;
+  width: 100%;
 
   .Roompara {
     display: inline-block;
@@ -82,13 +67,18 @@ const RoomWrap = styled.div`
     top: 23px;
     left: 23px;
     width: 376px;
-    height: 226px;
+    /* width: 100%; */
+    height: 250px;
     cursor: pointer;
     margin: 0;
 
     img {
-      width: 376px;
-      height: 226px;
+      display: block;
+      width: 100%;
+      height: 100%;
+      /* object-fit: cover; */
+      max-width: 100%;
+      height: auto;
     }
   }
   strong {
@@ -127,14 +117,9 @@ const InfoPrice = styled.div`
     right: 0;
     font-size: 18px;
     text-align: right;
-    /* display: inline-block; */
-    /* float: right; */
     .beforePrice {
       text-decoration: line-through;
       margin: 0 0 3px 0;
-      /* margin-bottom: 3px; */
-      /* height: 29px; */
-      /* padding-top: 13px; */
       font-size: 16px;
       color: rgba(0, 0, 0, 0.56);
     }

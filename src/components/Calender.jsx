@@ -182,6 +182,8 @@ const Calender = ({ props }) => {
       month: response.month,
       startDate,
       endDate,
+      start: `${response.year}-0${response.month}-${startDate}`,
+      end: `${response.year}-0${response.month}-${endDate}`,
     });
     setModalShow(false);
   };
@@ -204,7 +206,10 @@ const Calender = ({ props }) => {
         startDate={startDate}
         endDate={endDate}
       />
-      <button onClick={dateSelect}>선택 완료</button>
+      <CalBtnWrap>
+        <button onClick={dateSelect}>선택 완료</button>
+      </CalBtnWrap>
+      {/* <button onClick={dateSelect}>선택 완료</button> */}
     </CalenderWrap>
   );
 };
@@ -212,15 +217,10 @@ const Calender = ({ props }) => {
 export default Calender;
 
 const CalenderWrap = styled.div`
-  /* margin-top: 20px; */
-  /* top: 703px !important; */
-  /* margin-left: -479px; */
   overflow: hidden;
   width: 375px;
-  /* left: 50% !important; */
   border-radius: 4px;
   box-shadow: 0px 3px 5px 0px rgba(0, 0, 0, 0.2);
-  /* position: absolute; */
   z-index: 200;
 `;
 const CalenderTop = styled.div``;
@@ -260,8 +260,29 @@ const CalenderTitle = styled.div`
     line-height: 63px;
     font-size: 16px;
     text-align: center;
-    /* span{
+  }
+`;
+const CalBtnWrap = styled.div`
+  position: relative;
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  height: auto;
+  margin-top: 0;
+  padding: 16px 16px 16px 16px;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  background: #fff;
 
-    } */
+  button {
+    width: 91%;
+    height: 52px;
+    border: 1px solid rgb(242, 17, 76);
+    background: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(242, 17, 76);
+
+    border-radius: 4px;
   }
 `;
