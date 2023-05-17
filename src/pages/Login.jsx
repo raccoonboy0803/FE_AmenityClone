@@ -59,8 +59,8 @@ function Login() {
       localStorage.setItem('refreshToken', response?.headers.refresh_key);
       localStorage.setItem('userEmail', response?.headers.user_email);
       navigate('/');
-      console.log(response?.headers);
-      console.log(response?.headers.access_key);
+      // console.log(response?.headers);
+      // console.log(response?.headers.access_key);
       if (response?.data.msg === '없는 이메일 입니다.') {
         alert('회원 정보가 없습니다. 회원가입 페이지로 이동합니다.');
         navigate('/signup');

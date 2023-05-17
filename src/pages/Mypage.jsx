@@ -2,6 +2,9 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import * as st from '../shared/styles';
 import { useNavigate } from 'react-router-dom';
+import axios from '../api/axios';
+import { useQuery, useQueryClient } from 'react-query';
+import { useCookies } from 'react-cookie';
 
 function Mypage() {
   let navigate = useNavigate();
