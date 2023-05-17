@@ -2,20 +2,24 @@ import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
-const ReserveCard = () => {
+const ReserveCard = ({ data }) => {
+  // console.log(data);
+  // console.log(data.data.amenityId);
+  // console.log(data.amenityId);
+  // console.log(data.amenityId);
   return (
     <ListWrap>
       <ProductList>
-        <Link to="/product/search/:searchId">
+        <Link to={`/api/amenity/detail/${data.amenityId}`}>
           <p>
-            <img src="//image.goodchoice.kr/resize_1000X500x0/affiliate/2023/01/30/63d7641ad61a2.jpg" />
+            <img src={data.amenityImgDtoList[0].imageUrl} />
           </p>
           <div>
             <div>
-              <p>4성급</p>
-              <strong>보코서울강남, IHG 호텔</strong>
-              <p className="secondP">10.0 최고에요 (13)</p>
-              <p className="lastP">강남구</p>
+              <p>{data.amenityCategory}</p>
+              <strong>{data.amenityNm}</strong>
+              {/* <p className="secondP">10.0 최고에요 (13)</p> */}
+              <p className="lastP">{data.amenityAddr2}</p>
             </div>
           </div>
         </Link>

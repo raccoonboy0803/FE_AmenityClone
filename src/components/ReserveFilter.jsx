@@ -13,45 +13,19 @@ import { getMonthDate } from './Calendar2';
 import { Calender3 } from './Calender3';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { calendarDate, calendarModal } from '../shared/atoms';
-
-const publicText = [
-  { id: 0, value: '피트니스' },
-  { id: 1, value: '수영장' },
-  { id: 2, value: '사우나' },
-  { id: 3, value: '골프장' },
-  { id: 4, value: '레스토랑' },
-  { id: 5, value: '엘레베이터' },
-  { id: 6, value: '라운지' },
-  { id: 7, value: '공용PC' },
-  { id: 8, value: 'BBQ' },
-  { id: 9, value: '카페' },
-];
-const facilityText = [
-  { id: 0, value: '객실스파' },
-  { id: 1, value: '미니바' },
-  { id: 2, value: '와이파이' },
-  { id: 3, value: '욕실용품' },
-  { id: 4, value: 'TV' },
-  { id: 5, value: '에어컨' },
-  { id: 6, value: '냉장고' },
-  { id: 7, value: '객실샤워실' },
-  { id: 8, value: '욕조' },
-  { id: 9, value: '드라이기' },
-];
-const etcText = [
-  { id: 0, value: '반려견동반' },
-  { id: 1, value: '조식포함' },
-  { id: 2, value: '객실내흡연' },
-  { id: 3, value: '발렛파킹' },
-  { id: 4, value: '금연' },
-  { id: 5, value: '객실내취사' },
-  { id: 6, value: '프린터사용' },
-  { id: 7, value: '짐보관가능' },
-  { id: 8, value: '개인사물함' },
-  { id: 9, value: '무료주차' },
-];
+import {
+  publicText,
+  publicTextP,
+  facilityText,
+  facilityTextP,
+  etcText,
+  etcTextP,
+} from '../shared/filterData.js';
+import { useParams } from 'react-router-dom';
 
 const ReserveFilter = () => {
+  const { amenityType } = useParams();
+
   // const [isCalender, setIsCalender] = useState(false);
   const [isModalShow, setIsModalShow] = useRecoilState(calendarModal);
   const [isChecked, setIsChecked] = useState([null]); // 베드 유형
@@ -131,7 +105,7 @@ const ReserveFilter = () => {
       [name]: value,
     });
   }; //베드
-  console.log(formValue);
+
   return (
     <FilterWrap>
       <DateWrap>
@@ -196,67 +170,69 @@ const ReserveFilter = () => {
           <button onClick={() => peopleHandle(+1)} />
         </div>
       </PeopleWrap>
-      <BedWrap>
-        <strong>베드 타입</strong>
-        <div className="bedtype">
-          <div>
+      {amenityType === '0' ? (
+        <BedWrap>
+          <strong>베드 타입</strong>
+          <div className="bedtype">
             <div>
-              <BedBtn
-                id="single"
-                type="checkbox"
-                name="amenityVal"
-                value="0"
-                onChange={amenityValHandle}
-                // checked={isChecked?.includes('single')}
-              />
-              <p>싱글</p>
+              <div>
+                <BedBtn
+                  id="single"
+                  type="checkbox"
+                  name="amenityVal"
+                  value="0"
+                  onChange={amenityValHandle}
+                />
+                <p>싱글</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <BedBtn
+                  id="double"
+                  type="checkbox"
+                  name="amenityVal"
+                  value="1"
+                  onChange={amenityValHandle}
+                />
+                <p>더블</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <BedBtn
+                  id="twin"
+                  type="checkbox"
+                  name="amenityVal"
+                  value="2"
+                  onChange={amenityValHandle}
+                />
+                <p>트윈</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <BedBtn
+                  id="ondol"
+                  type="checkbox"
+                  name="amenityVal"
+                  value="3"
+                  onChange={amenityValHandle}
+                />
+                <p>온돌</p>
+              </div>
             </div>
           </div>
-          <div>
-            <div>
-              <BedBtn
-                id="double"
-                type="checkbox"
-                name="amenityVal"
-                value="1"
-                onChange={amenityValHandle}
-                // checked={isChecked?.includes('double')}
-              />
-              <p>더블</p>
-            </div>
-          </div>
-          <div>
-            <div>
-              <BedBtn
-                id="twin"
-                type="checkbox"
-                name="amenityVal"
-                value="2"
-                onChange={amenityValHandle}
-                // checked={isChecked?.includes('twin')}
-              />
-              <p>트윈</p>
-            </div>
-          </div>
-          <div>
-            <div>
-              <BedBtn
-                id="ondol"
-                type="checkbox"
-                name="amenityVal"
-                value="3"
-                onChange={amenityValHandle}
-                // checked={isChecked?.includes('ondol')}
-              />
-              <p>온돌</p>
-            </div>
-          </div>
-        </div>
-      </BedWrap>
+        </BedWrap>
+      ) : (
+        <BedWrap>
+          <div className="bedtype"></div>
+        </BedWrap>
+      )}
       <PublicSection>
         <strong>공용시설</strong>
         <ul>
-          {publicText.map((item) => (
+          {(amenityType === '0' ? publicText : publicTextP).map((item) => (
             <SelectList key={item.id}>
               <input
                 type="checkbox"
@@ -273,7 +249,7 @@ const ReserveFilter = () => {
       <PublicSection>
         <strong>객실 내 시설</strong>
         <ul>
-          {facilityText.map((item) => (
+          {(amenityType === '0' ? facilityText : facilityTextP).map((item) => (
             <SelectList key={item.id}>
               <input
                 type="checkbox"
@@ -290,7 +266,7 @@ const ReserveFilter = () => {
       <PublicSection>
         <strong>기타</strong>
         <ul>
-          {etcText.map((item) => (
+          {(amenityType === '0' ? etcText : etcTextP).map((item) => (
             <SelectList key={item.id}>
               <input
                 type="checkbox"

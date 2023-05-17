@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import motel from '../../images/ico_category_01.png';
 import hotel from '../../images/ico_category_02.png';
@@ -9,10 +9,17 @@ import camping from '../../images/ico_category_05.png';
 import travle from '../../images/ico_category_09.png';
 
 function NavIcons() {
+  const { amenityType } = useParams();
   const navigate = useNavigate();
   const hotelHandle = () => {
-    navigate('/product/search');
+    navigate(`/api/amenity/0`);
   };
+  const pansionHandle = () => {
+    navigate(`/api/amenity/1`);
+  };
+  // const pensionHandle = () => {
+  //   navigate('/api/amenity/1');
+  // };
   return (
     <NavBox>
       <NavIcon>
@@ -24,7 +31,7 @@ function NavIcons() {
         <NavP>호텔·리조트</NavP>
       </NavIcon>
       <NavIcon>
-        <ImgBox name="pension" />
+        <ImgBox name="pension" onClick={pansionHandle} />
         <NavP>펜션</NavP>
       </NavIcon>
       <NavIcon>

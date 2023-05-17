@@ -12,8 +12,13 @@ const Router = () => {
       <Layout>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/product/search" element={<Reserve />} />
-          <Route path="/product/search/:searchId" element={<ReserveDetail />} />
+          <Route path="/api/amenity/:amenityType" element={<Reserve />} />
+          {/* <Route path="/api/amenity/1" element={<Reserve />} /> */}
+          {/* <Route path="/api/amenity/1" element={<Reserve />} /> */}
+          <Route
+            path="/api/amenity/detail/:amenityId"
+            element={<ReserveDetail />}
+          />
           <Route path="/login" element={<Login />} />
         </Routes>
       </Layout>

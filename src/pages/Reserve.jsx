@@ -1,11 +1,29 @@
 import tw, { styled } from 'twin.macro';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ReserveFilter from '../components/ReserveFilter';
 import ReserveCard from '../components/ReserveCard';
-
+import { useQuery } from 'react-query';
+import { api } from '../api/axios';
 function Reserve() {
-  const params = useParams();
+  const { amenityType } = useParams();
+  // console.log(amenityType);
+
+  const fetchDataH = async () => {
+    const response = await api.get(`/api/amenity/0`);
+    return response;
+  };
+
+  const fetchDataP = async () => {
+    const response = await api.get(`/api/amenity/1`);
+    return response;
+  };
+
+  const { data, error } = useQuery(
+    'fetchData',
+    amenityType === '0' ? fetchDataH : fetchDataP,
+  );
+  // console.log(data);
 
   return (
     <div style={{ display: 'flex', width: '75%', margin: '0 auto' }}>
@@ -24,12 +42,9 @@ function Reserve() {
             </div>
           </ProductWrap>
         </div>
-        <ReserveCard />
-        <ReserveCard />
-        <ReserveCard />
-        <ReserveCard />
-        <ReserveCard />
-        <ReserveCard />
+        {data?.data.data.map((item) => (
+          <ReserveCard key={item.amenityId} data={item} />
+        ))}
       </div>
     </div>
   );
