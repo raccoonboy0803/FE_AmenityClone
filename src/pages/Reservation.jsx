@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import styled from 'styled-components';
 import * as st from '../shared/styles';
 import SelectPayment from './reservation/SelectPayment';
 import CheckedAgree from './reservation/CheckedAgree';
+import { useNavigate } from 'react-router-dom';
 
 function Reservation() {
+  let navigate = useNavigate();
+  
+  useEffect(() => {
+    if (localStorage.getItem('userEmail') === null) {
+      alert('로그인 후에 이용 가능합니다.');
+      navigate('/login');
+    }
+  });
   return (
     <>
       <Header />
