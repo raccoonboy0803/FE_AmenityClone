@@ -6,9 +6,10 @@ import Calender from '../components/Calender';
 import RoomCard from '../components/RoomCard';
 // import { api } from '../api/axios';
 import { useQuery } from 'react-query';
-import { auth } from '../api/axios';
+// import { auth } from '../api/axios';
 import axios from '../api/axios';
 import Cookies from 'js-cookie';
+// import axios from 'axios';
 
 const ReserveDetail = () => {
   const { amenityId } = useParams();
@@ -18,22 +19,18 @@ const ReserveDetail = () => {
   console.log('acess:::::', token);
   console.log('refresh::::;:', refreshtoken);
   const detailData = async () => {
-    const response = await axios.get(`/api/amenity/detail/${amenityId}`);
-    // {
-    //   headers: {
-    //     ACCESS_KEY: `Bearer ${token}`,
-    //     REFRESH_KEY: `Bearer ${refreshtoken}`,
-    //   },
-    // }
+    const response = await axios.get(
+      `http://3.36.124.7:8080/api/amenity/detail/${amenityId}`,
+    );
     return response;
   };
 
+  // headers: {
+  //   ACCESS_KEY: `Bearer ${token}`,
+  //   REFRESH_KEY: `Bearer ${refreshtoken}`,
+  // },
+
   const { isLoading, data, error } = useQuery('datailgo', detailData);
-  console.log(isLoading);
-  // console.log(data);
-  console.log(error);
-  console.log(data && data);
-  // console.log(data?.data.data);
 
   const {
     amenityCategory,
@@ -41,7 +38,7 @@ const ReserveDetail = () => {
     amenityNm,
     roomDtoList,
     amenityImgDtoList,
-  } = data?.data.data;
+  } = !isLoading && data.data;
 
   const carousel = useRef();
   const [index, setIndex] = useState(0);
@@ -94,7 +91,7 @@ const ReserveDetail = () => {
           <div>
             <SwiperTop>
               <ul style={styles}>
-                {amenityImgDtoList.map((item) => (
+                {amenityImgDtoList?.map((item) => (
                   <SwiperTopList>
                     <img src={item.imageUrl} />
                   </SwiperTopList>
@@ -105,7 +102,7 @@ const ReserveDetail = () => {
               <Prev onClick={prevBtn} />
               <SwiperBottom>
                 <ul style={bottomStyle}>
-                  {amenityImgDtoList.map((item) => (
+                  {amenityImgDtoList?.map((item) => (
                     <li>
                       <img src={item.imageUrl} />
                     </li>
@@ -147,7 +144,7 @@ const ReserveDetail = () => {
           </BtnData>
           <Calender />
         </RoomInfo>
-        {roomDtoList.map((item) => (
+        {roomDtoList?.map((item) => (
           <RoomCard data={item} />
         ))}
       </DetailForm>

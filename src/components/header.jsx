@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as st from '../shared/styles';
 import Cookies from 'js-cookie';
-
 import axios from '../api/axios';
 
 function Header() {
@@ -27,7 +26,7 @@ function Header() {
     location.reload();
     Cookies.remove('accessToken');
     Cookies.remove('refreshToken');
-    // localStorage.removeItem('refreshToken');
+
     localStorage.removeItem('userEmail');
   };
 

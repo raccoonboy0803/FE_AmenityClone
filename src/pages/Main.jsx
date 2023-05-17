@@ -7,6 +7,7 @@ import apple from '../images/appstore.png';
 import NavIcons from './main/NavIcons';
 import * as st from '../shared/styles';
 import Carousel from './main/Carousel';
+import { MdPanoramaPhotosphere } from 'react-icons/md';
 
 function Main() {
   const mainImgClick = () => {
@@ -66,7 +67,10 @@ const AppDown = styled.div`
   height: 70px;
   background-size: contain;
   background-repeat: no-repeat;
-  background-image: url(${(props) =>
-    props.app === 'google' ? `${google}` : `${apple}`});
   cursor: pointer;
+
+  ${(props) =>
+    props.app === 'google'
+      ? `background-image: url(${google})`
+      : `background-image: url(${apple})`}
 `;

@@ -60,13 +60,7 @@ function Login() {
       const refreshHeader = response.headers.refresh_key;
       const refreshToken = refreshHeader.split(' ')[1];
       Cookies.set('refreshToken', refreshToken);
-      // localStorage.setItem(
-      //   'refreshToken',
-      //   response.headers.refresh_key.split(' ')[1],
-      // );
       localStorage.setItem('userEmail', response?.headers.user_email);
-      console.log('Access:::::::', Cookies.get('accessToken'));
-      console.log('refresh:::::::', Cookies.get('refreshToken'));
       navigate('/');
       console.log(response?.headers);
       console.log(response?.headers.access_key);
