@@ -6,12 +6,10 @@ import { BsFillChatFill } from 'react-icons/bs';
 import { MdEmail } from 'react-icons/md';
 import { FaLock } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import Cookies from 'js-cookie';
 import axios from '../api/axios';
 
 function Login() {
-  const [, setCookie] = useCookies(['login']);
-
   const LOGIN_URL = '/api/user/login';
 
   let navigate = useNavigate();
@@ -55,8 +53,13 @@ function Login() {
         },
       );
       console.log(JSON.stringify(response?.data));
-      setCookie('accessToken', response?.headers.access_key);
-      localStorage.setItem('refreshToken', response?.headers.refresh_key);
+
+      const accessHeader = response.headers.access_key;
+      const accessToken = accessHeader.split(' ')[1];
+      Cookies.set('accessToken', accessToken);
+      const refreshHeader = response.headers.refresh_key;
+      const refreshToken = refreshHeader.split(' ')[1];
+      Cookies.set('refreshToken', refreshToken);
       localStorage.setItem('userEmail', response?.headers.user_email);
       navigate('/');
       // console.log(response?.headers);
@@ -91,8 +94,8 @@ function Login() {
           </st.SignP>
         </st.SignButton>
 
-          <MiddleLine />
-          <MiddleText>또는</MiddleText>
+        <MiddleLine />
+        <MiddleText>또는</MiddleText>
 
         <form onSubmit={handleSubmit}>
           <div className={userEmail && !isEmail ? 'focus' : 'signInputBox'}>
@@ -196,4 +199,4 @@ const MiddleBox = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
-`
+`;

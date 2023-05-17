@@ -1,27 +1,36 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const RoomCard = () => {
+const RoomCard = ({ data }) => {
+  console.log(data);
+  const { roomNm, roomPrice, roomImgDtoList, roomChk } = data;
   return (
     <RoomWrap>
       <p className="Roompara">
-        <img
+        {/* <img
           src="//image.goodchoice.kr/resize_370x220/affiliate/2019/07/16/5d2d61a54e745.jpg"
           alt="roomImg"
-        />
+        /> */}
+        {roomImgDtoList.map((item) => (
+          <img src={item.roomUrl} />
+        ))}
       </p>
-      <strong>[단독특가] 체크인 시 배정</strong>
+      <strong>{roomNm}</strong>
       <CardInfo>
         <InfoPrice>
           <strong>가격</strong>
           <div>
-            <p className="beforePrice">251,000</p>
-            <p className="afterPrice">109,000원</p>
+            {/* <p className="beforePrice">251,000</p> */}
+            <p className="afterPrice">{roomPrice}원</p>
           </div>
           <UseBtn>객실 이용 안내</UseBtn>
         </InfoPrice>
       </CardInfo>
-      <ReserveBtn>예약</ReserveBtn>
+      {roomChk === '0' ? (
+        <ReserveBtn>예약</ReserveBtn>
+      ) : (
+        <ReserveNotBtn>예약만료</ReserveNotBtn>
+      )}
     </RoomWrap>
   );
 };
@@ -139,5 +148,21 @@ const ReserveBtn = styled.button`
     to right,
     rgba(255, 0, 85, 1) 1%,
     rgba(230, 34, 67, 1) 100%
+  );
+`;
+const ReserveNotBtn = styled.button`
+  display: block;
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #fff;
+  text-align: center;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.87) 1%,
+    rgba(0, 0, 0, 0.87) 100%
   );
 `;

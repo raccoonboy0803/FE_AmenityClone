@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import styled from 'styled-components';
 import single from '../images/icon_single.png';
 import singleCheck from '../images/icon_singleCheck.png';
@@ -8,56 +8,119 @@ import twin from '../images/icon_twin.png';
 import twinCheck from '../images/icon_twinCheck.png';
 import ondol from '../images/icon_ondol.png';
 import ondolCheck from '../images/icon_ondolCheck.png';
-
-const publicText = [
-  { id: 0, value: '피트니스' },
-  { id: 1, value: '수영장' },
-  { id: 2, value: '사우나' },
-  { id: 3, value: '골프장' },
-  { id: 4, value: '레스토랑' },
-  { id: 5, value: '엘레베이터' },
-  { id: 6, value: '라운지' },
-  { id: 7, value: '공용PC' },
-  { id: 8, value: 'BBQ' },
-  { id: 9, value: '카페' },
-];
-const facilityText = [
-  { id: 0, value: '객실스파' },
-  { id: 1, value: '미니바' },
-  { id: 2, value: '와이파이' },
-  { id: 3, value: '욕실용품' },
-  { id: 4, value: 'TV' },
-  { id: 5, value: '에어컨' },
-  { id: 6, value: '냉장고' },
-  { id: 7, value: '객실샤워실' },
-  { id: 8, value: '욕조' },
-  { id: 9, value: '드라이기' },
-];
-const etcText = [
-  { id: 0, value: '반려견동반' },
-  { id: 1, value: '조식포함' },
-  { id: 2, value: '객실내흡연' },
-  { id: 3, value: '발렛파킹' },
-  { id: 4, value: '금연' },
-  { id: 5, value: '객실내취사' },
-  { id: 6, value: '프린터사용' },
-  { id: 7, value: '짐보관가능' },
-  { id: 8, value: '개인사물함' },
-  { id: 9, value: '무료주차' },
-];
+import Calender from './Calender.jsx';
+import { getMonthDate } from './Calendar2';
+// import { Calender3 } from './Calender3';
+import { useRecoilValue, useRecoilState } from 'recoil';
+import { calendarDate, calendarModal } from '../shared/atoms';
+import {
+  publicText,
+  publicTextP,
+  facilityText,
+  facilityTextP,
+  etcText,
+  etcTextP,
+} from '../shared/filterData.js';
+import { useParams } from 'react-router-dom';
 
 const ReserveFilter = () => {
+  const { amenityType } = useParams();
+
+  // const [isCalender, setIsCalender] = useState(false);
+  const [isModalShow, setIsModalShow] = useRecoilState(calendarModal);
+  const [isChecked, setIsChecked] = useState([null]); // 베드 유형
+  const [people, setPeople] = useState(2); //인원
+  const cate = useRef('');
+
+  // const [amenityCommon, setAmenityCommon] = useState([]); //공통시설
+  const [formValue, setFormValue] = useState({
+    amenityType: 0, //호텔, 펜션
+    amenityCategory: '', //유형
+    amenityPeople: '', //인원
+    amenityVal: '', //호텔:베드타입 , 펜션:금액
+    amenityCommon: [], //공용시설
+    amenityIn: [], //객실 내 시설
+    amenityEtc: [], // 기타
+  });
+  const dateValue = useRecoilValue(calendarDate);
+  // console.log(dateValue.startDate);
+  // console.log(dateValue.endDate);
+  const calenderHandle = () => {
+    setIsModalShow((prev) => !prev);
+  };
+
+  const peopleHandle = (direction) => {
+    if (people === 2 && direction === -1) {
+      return;
+    }
+    setPeople((prev) => prev + direction);
+    setFormValue({
+      ...formValue,
+      amenityPeople: people,
+    });
+  }; //인원
+
+  const checkboxHandle = (e) => {
+    const { name, value } = e.target;
+
+    if (e.target.checked === true) {
+      formValue[name].push(value);
+    } else {
+      formValue[name].filter((item) => item !== value);
+    }
+  }; //공통 내부 기타
+
+  const cateHandle = (e) => {
+    const { name, value } = e.target;
+    const input0 = document.getElementById('grade_0');
+    const input1 = document.getElementById('grade_1');
+    const input2 = document.getElementById('grade_2');
+    let handleArr = [input0, input1, input2];
+    for (let i = 0; i < handleArr.length; i++) {
+      if (handleArr[i] !== e.target) {
+        handleArr[i].checked = false;
+      }
+    }
+
+    setFormValue({
+      ...formValue,
+      [name]: value,
+    });
+  }; //유형
+
+  const amenityValHandle = (e) => {
+    const { name, value } = e.target;
+    const input0 = document.getElementById('single');
+    const input1 = document.getElementById('double');
+    const input2 = document.getElementById('twin');
+    const input3 = document.getElementById('ondol');
+    let handleArr = [input0, input1, input2, input3];
+    for (let i = 0; i < handleArr.length; i++) {
+      if (handleArr[i] !== e.target) {
+        handleArr[i].checked = false;
+      }
+    }
+    setFormValue({
+      ...formValue,
+      [name]: value,
+    });
+  }; //베드
+
   return (
     <FilterWrap>
       <DateWrap>
         <h3>날짜</h3>
-        <div>
+        <div onClick={calenderHandle}>
           <span>
-            <b>5.13 ~ 5.14</b>
-            <em>&nbsp;&nbsp;1박</em>
+            <b>
+              5.{dateValue.startDate}~ 5.{dateValue.endDate}
+            </b>
+            <em>&nbsp;&nbsp;{dateValue.endDate - dateValue.startDate}박</em>
           </span>
         </div>
       </DateWrap>
+      <CalenderWrap>{isModalShow && <Calender />}</CalenderWrap>
+
       <DetailTitle>상세조건</DetailTitle>
       <BtnWrap>
         <button>초기화</button>
@@ -65,17 +128,35 @@ const ReserveFilter = () => {
       </BtnWrap>
       <ListWrap>
         <strong>호텔 리조트 유형</strong>
-        <ul>
+        <ul ref={cate}>
           <li>
-            <input type="checkbox" id="grade_0" value="0" />
+            <input
+              type="checkbox"
+              id="grade_0"
+              value="0"
+              name="amenityCategory"
+              onClick={cateHandle}
+            />
             <label htmlFor="grade_0">5성급</label>
           </li>
           <li>
-            <input type="checkbox" id="grade_1" value="1" />
+            <input
+              type="checkbox"
+              id="grade_1"
+              value="1"
+              name="amenityCategory"
+              onClick={cateHandle}
+            />
             <label htmlFor="grade_1">특1급</label>
           </li>
           <li>
-            <input type="checkbox" id="grade_1" value="2" />
+            <input
+              type="checkbox"
+              id="grade_2"
+              value="2"
+              name="amenityCategory"
+              onClick={cateHandle}
+            />
             <label htmlFor="grade_2">특급</label>
           </li>
         </ul>
@@ -84,46 +165,82 @@ const ReserveFilter = () => {
         <input type="hidden" />
         <strong>인원</strong>
         <div>
-          <button />
-          <span>2</span>
-          <button />
+          <button onClick={() => peopleHandle(-1)} />
+          <span>{people}</span>
+          <button onClick={() => peopleHandle(+1)} />
         </div>
       </PeopleWrap>
-      <BedWrap>
-        <strong>베드 타입</strong>
-        <div className="bedtype">
-          <div>
+      {amenityType === '0' ? (
+        <BedWrap>
+          <strong>베드 타입</strong>
+          <div className="bedtype">
             <div>
-              <BedBtn name="single" />
-              <p>싱글</p>
+              <div>
+                <BedBtn
+                  id="single"
+                  type="checkbox"
+                  name="amenityVal"
+                  value="0"
+                  onChange={amenityValHandle}
+                />
+                <p>싱글</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <BedBtn
+                  id="double"
+                  type="checkbox"
+                  name="amenityVal"
+                  value="1"
+                  onChange={amenityValHandle}
+                />
+                <p>더블</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <BedBtn
+                  id="twin"
+                  type="checkbox"
+                  name="amenityVal"
+                  value="2"
+                  onChange={amenityValHandle}
+                />
+                <p>트윈</p>
+              </div>
+            </div>
+            <div>
+              <div>
+                <BedBtn
+                  id="ondol"
+                  type="checkbox"
+                  name="amenityVal"
+                  value="3"
+                  onChange={amenityValHandle}
+                />
+                <p>온돌</p>
+              </div>
             </div>
           </div>
-          <div>
-            <div>
-              <BedBtn name="double" />
-              <p>더블</p>
-            </div>
-          </div>
-          <div>
-            <div>
-              <BedBtn name="twin" />
-              <p>트윈</p>
-            </div>
-          </div>
-          <div>
-            <div>
-              <BedBtn name="ondol" />
-              <p>온돌</p>
-            </div>
-          </div>
-        </div>
-      </BedWrap>
+        </BedWrap>
+      ) : (
+        <BedWrap>
+          <div className="bedtype"></div>
+        </BedWrap>
+      )}
       <PublicSection>
         <strong>공용시설</strong>
         <ul>
-          {publicText.map((item) => (
+          {(amenityType === '0' ? publicText : publicTextP).map((item) => (
             <SelectList key={item.id}>
-              <input type="checkbox" id={`${item.value}lebel`} />
+              <input
+                type="checkbox"
+                id={`${item.value}lebel`}
+                value={item.id}
+                name="amenityCommon"
+                onClick={checkboxHandle}
+              />
               <label htmlFor={`${item.value}lebel`}>{item.value}</label>
             </SelectList>
           ))}
@@ -132,9 +249,15 @@ const ReserveFilter = () => {
       <PublicSection>
         <strong>객실 내 시설</strong>
         <ul>
-          {facilityText.map((item) => (
+          {(amenityType === '0' ? facilityText : facilityTextP).map((item) => (
             <SelectList key={item.id}>
-              <input type="checkbox" id={`${item.value}lebel`} />
+              <input
+                type="checkbox"
+                id={`${item.value}lebel`}
+                name="amenityIn"
+                value={item.id}
+                onClick={checkboxHandle}
+              />
               <label htmlFor={`${item.value}lebel`}>{item.value}</label>
             </SelectList>
           ))}
@@ -143,9 +266,15 @@ const ReserveFilter = () => {
       <PublicSection>
         <strong>기타</strong>
         <ul>
-          {etcText.map((item) => (
+          {(amenityType === '0' ? etcText : etcTextP).map((item) => (
             <SelectList key={item.id}>
-              <input type="checkbox" id={`${item.value}lebel`} />
+              <input
+                type="checkbox"
+                id={`${item.value}lebel`}
+                name="amenityEtc"
+                value={item.id}
+                onClick={checkboxHandle}
+              />
               <label htmlFor={`${item.value}lebel`}>{item.value}</label>
             </SelectList>
           ))}
@@ -410,22 +539,35 @@ const PublicSection = styled.section`
     padding: 0;
   }
 `;
-const BedBtn = styled('div')`
-  margin: 0;
+
+const BedBtn = styled('input')`
+  margin: 0 10px 0 0;
   width: 48px;
   height: 24px;
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
+  appearance: none;
 
   ${(props) =>
-    props.name === 'single'
+    props.id === 'single'
       ? `background-image: url(${single});`
-      : props.name === 'double'
+      : props.id === 'double'
       ? `background-image: url(${double});`
-      : props.name === 'twin'
+      : props.id === 'twin'
       ? `background-image: url(${twin});`
       : `background-image: url(${ondol});`}
+
+  &:checked {
+    ${(props) =>
+      props.id === 'single'
+        ? `background-image: url(${singleCheck});`
+        : props.id === 'double'
+        ? `background-image: url(${doubleCheck});`
+        : props.id === 'twin'
+        ? `background-image: url(${twinCheck});`
+        : `background-image: url(${ondolCheck});`}
+  }
 `;
 
 const SelectList = styled.li`
@@ -453,4 +595,10 @@ const SelectList = styled.li`
     vertical-align: top;
     cursor: pointer;
   }
+`;
+const CalenderWrap = styled.div`
+  position: absolute;
+  top: 145px;
+  left: 23px;
+  z-index: 200;
 `;

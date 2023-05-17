@@ -4,8 +4,42 @@ import { useState, useRef, useEffect } from 'react';
 import caroBtn from '../images/icon_prev_btn.png';
 import Calender from '../components/Calender';
 import RoomCard from '../components/RoomCard';
+// import { api } from '../api/axios';
+import { useQuery } from 'react-query';
+// import { auth } from '../api/axios';
+import axios from '../api/axios';
+import Cookies from 'js-cookie';
+// import axios from 'axios';
+
 const ReserveDetail = () => {
-  const params = useParams();
+  const { amenityId } = useParams();
+  console.log(amenityId);
+  const token = Cookies.get('accessToken');
+  const refreshtoken = Cookies.get('refreshToken');
+  console.log('acess:::::', token);
+  console.log('refresh::::;:', refreshtoken);
+  const detailData = async () => {
+    const response = await axios.get(
+      `http://3.36.124.7:8080/api/amenity/detail/${amenityId}`,
+    );
+    return response;
+  };
+
+  // headers: {
+  //   ACCESS_KEY: `Bearer ${token}`,
+  //   REFRESH_KEY: `Bearer ${refreshtoken}`,
+  // },
+
+  const { isLoading, data, error } = useQuery('datailgo', detailData);
+
+  const {
+    amenityCategory,
+    amenityAddr,
+    amenityNm,
+    roomDtoList,
+    amenityImgDtoList,
+  } = !isLoading && data.data;
+
   const carousel = useRef();
   const [index, setIndex] = useState(0);
   const [btnActive, setBtnActive] = useState('reserve');
@@ -57,60 +91,22 @@ const ReserveDetail = () => {
           <div>
             <SwiperTop>
               <ul style={styles}>
-                <SwiperTopList>
-                  <img
-                    src="//image.goodchoice.kr/resize_490x348/affiliate/2023/01/30/63d7641ad61a2.jpg"
-                    alt="swiper"
-                  />
-                </SwiperTopList>
-                <SwiperTopList>
-                  <img
-                    src="//image.goodchoice.kr/resize_490x348/affiliate/2019/07/16/5d2d61e24506b.jpg"
-                    alt="swiper"
-                  />
-                </SwiperTopList>
-                <SwiperTopList>
-                  <img
-                    src="//image.goodchoice.kr/resize_490x348/affiliate/2019/07/16/5d2d621b0135c.jpg"
-                    alt="swiper"
-                  />
-                </SwiperTopList>
-                <SwiperTopList>
-                  <img
-                    src="//image.goodchoice.kr/resize_490x348/affiliate/2020/11/18/5fb4da73c212d.jpg"
-                    alt="swiper"
-                  />
-                </SwiperTopList>
+                {amenityImgDtoList?.map((item) => (
+                  <SwiperTopList>
+                    <img src={item.imageUrl} />
+                  </SwiperTopList>
+                ))}
               </ul>
             </SwiperTop>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Prev onClick={prevBtn} />
               <SwiperBottom>
                 <ul style={bottomStyle}>
-                  <li>
-                    <img
-                      src="//image.goodchoice.kr/resize_490x348/affiliate/2023/01/30/63d7641ad61a2.jpg"
-                      alt="swiper"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      src="//image.goodchoice.kr/resize_490x348/affiliate/2019/07/16/5d2d61e24506b.jpg"
-                      alt="swiper"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      src="//image.goodchoice.kr/resize_490x348/affiliate/2019/07/16/5d2d621b0135c.jpg"
-                      alt="swiper"
-                    />
-                  </li>
-                  <li>
-                    <img
-                      src="//image.goodchoice.kr/resize_490x348/affiliate/2020/11/18/5fb4da73c212d.jpg"
-                      alt="swiper"
-                    />
-                  </li>
+                  {amenityImgDtoList?.map((item) => (
+                    <li>
+                      <img src={item.imageUrl} />
+                    </li>
+                  ))}
                 </ul>
               </SwiperBottom>
               <Next onClick={nextBtn} />
@@ -119,13 +115,13 @@ const ReserveDetail = () => {
         </DetailTopLeft>
         <Right>
           <Info>
-            <span>4성급</span>
-            <h2>★당일특가★ 호텔 리베라</h2>
+            <span>{amenityCategory}</span>
+            <h2>{amenityNm}</h2>
             <div>
               <span>9.1</span>
               추천해요
             </div>
-            <p>서울 강남구</p>
+            <p>{amenityAddr}</p>
           </Info>
         </Right>
       </DetailTop>
@@ -146,13 +142,11 @@ const ReserveDetail = () => {
             <span>5.15 ~ 5.16</span>
             <span>&nbsp;·&nbsp;1박</span>
           </BtnData>
-          {/* <Calender /> */}
+          <Calender />
         </RoomInfo>
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
-        <RoomCard />
+        {roomDtoList?.map((item) => (
+          <RoomCard data={item} />
+        ))}
       </DetailForm>
     </DetailWrap>
   );

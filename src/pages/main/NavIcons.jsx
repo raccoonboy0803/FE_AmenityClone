@@ -11,8 +11,12 @@ import travle from '../../images/ico_category_09.png';
 function NavIcons() {
   const navigate = useNavigate();
   const hotelHandle = () => {
-    navigate('/product/search');
+    navigate(`/api/amenity/0`);
   };
+  const pansionHandle = () => {
+    navigate(`/api/amenity/1`);
+  };
+
   return (
     <NavBox>
       <NavIcon>
@@ -24,7 +28,7 @@ function NavIcons() {
         <NavText>호텔·리조트</NavText>
       </NavIcon>
       <NavIcon>
-        <ImgBox name="pension" />
+        <ImgBox name="pension" onClick={pansionHandle} />
         <NavText>펜션</NavText>
       </NavIcon>
       <NavIcon>

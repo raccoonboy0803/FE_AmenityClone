@@ -3,13 +3,10 @@ import { FaSearch } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import * as st from '../shared/styles';
-import { useCookies } from 'react-cookie';
-
+import Cookies from 'js-cookie';
 import axios from '../api/axios';
 
 function Header() {
-  const [, , removeCookie] = useCookies(['login']);
-
   const [isLogin, setIsLogin] = useState(false);
 
   let navigate = useNavigate();
@@ -23,32 +20,33 @@ function Header() {
   });
 
   const logout = async () => {
-    const userEmail = localStorage.getItem('userEmail')
+    const userEmail = localStorage.getItem('userEmail');
     axios.get(`api/user/logout/${userEmail}`);
-    alert('로그아웃 되었습니다.')
+    alert('로그아웃 되었습니다.');
     location.reload();
-    removeCookie('accessToken');
-    localStorage.removeItem('refreshToken');
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+
     localStorage.removeItem('userEmail');
   };
 
   useEffect(() => {
     if (localStorage.getItem('userEmail') === null) {
-      console.log('로그인:', isLogin)
+      console.log('로그인:', isLogin);
     } else {
-      setIsLogin(true)
-      console.log('로그인:', isLogin)
+      setIsLogin(true);
+      console.log('로그인:', isLogin);
     }
-  })
+  });
 
   const handleMypage = () => {
     if (!isLogin) {
-      alert('로그인 후에 이용 가능합니다.')
-      navigate('/login')
+      alert('로그인 후에 이용 가능합니다.');
+      navigate('/login');
     } else {
-      navigate('/mypage')
+      navigate('/mypage');
     }
-  }
+  };
 
   return (
     <>
@@ -60,9 +58,7 @@ function Header() {
               <MemberNav>
                 <FaSearch />
               </MemberNav>
-              <MemberNav onClick={handleMypage}>
-                예약내역
-              </MemberNav>
+              <MemberNav onClick={handleMypage}>예약내역</MemberNav>
               {!isLogin ? (
                 <MemberNav onClick={() => navigate('/login')}>로그인</MemberNav>
               ) : (

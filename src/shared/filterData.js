@@ -1,0 +1,73 @@
+export const publicText = [
+  { id: 0, value: '피트니스' },
+  { id: 1, value: '수영장' },
+  { id: 2, value: '사우나' },
+  { id: 3, value: '골프장' },
+  { id: 4, value: '레스토랑' },
+  { id: 5, value: '엘레베이터' },
+  { id: 6, value: '라운지' },
+  { id: 7, value: '공용PC' },
+  { id: 8, value: 'BBQ' },
+  { id: 9, value: '카페' },
+];
+export const facilityText = [
+  { id: 0, value: '객실스파' },
+  { id: 1, value: '미니바' },
+  { id: 2, value: '와이파이' },
+  { id: 3, value: '욕실용품' },
+  { id: 4, value: 'TV' },
+  { id: 5, value: '에어컨' },
+  { id: 6, value: '냉장고' },
+  { id: 7, value: '객실샤워실' },
+  { id: 8, value: '욕조' },
+  { id: 9, value: '드라이기' },
+];
+export const etcText = [
+  { id: 0, value: '반려견동반' },
+  { id: 1, value: '조식포함' },
+  { id: 2, value: '객실내흡연' },
+  { id: 3, value: '발렛파킹' },
+  { id: 4, value: '금연' },
+  { id: 5, value: '객실내취사' },
+  { id: 6, value: '프린터사용' },
+  { id: 7, value: '짐보관가능' },
+  { id: 8, value: '개인사물함' },
+  { id: 9, value: '무료주차' },
+];
+
+export const publicTextP = [
+  { id: 0, value: '수영장' },
+  { id: 1, value: 'BBQ' },
+  { id: 2, value: '족구장' },
+  { id: 3, value: '세미나실' },
+  { id: 4, value: '노래방' },
+  { id: 5, value: '공용스파' },
+  { id: 6, value: '라운지' },
+  { id: 7, value: '공용PC' },
+  { id: 8, value: '카페' },
+  { id: 9, value: '피트니스' },
+];
+export const facilityTextP = [
+  { id: 0, value: '와이파이' },
+  { id: 1, value: '객실스파' },
+  { id: 2, value: '전기밥솥' },
+  { id: 3, value: 'TV' },
+  { id: 4, value: '욕실용품' },
+  { id: 5, value: '세면도구' },
+  { id: 6, value: '미니바' },
+  { id: 7, value: '에어컨' },
+  { id: 8, value: '냉장고' },
+  { id: 9, value: '객실샤워실' },
+];
+export const etcTextP = [
+  { id: 0, value: '픽업가능' },
+  { id: 1, value: '객실내취사' },
+  { id: 2, value: '프린터사용' },
+  { id: 3, value: '짐보관가능' },
+  { id: 4, value: '개인사물함' },
+  { id: 5, value: '무료주차' },
+  { id: 6, value: '조식포함' },
+  { id: 7, value: '객실내흡연' },
+  { id: 8, value: '발렛파킹' },
+  { id: 9, value: '금연' },
+];
