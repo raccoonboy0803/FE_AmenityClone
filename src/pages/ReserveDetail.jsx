@@ -33,7 +33,12 @@ const ReserveDetail = () => {
   useEffect(() => {
     setReserveR(data);
   });
-
+  // console.log(isLoading);
+  // console.log(data?.data.data);
+  // console.log(data?.data.amenityImgDtoList);
+  // console.log(error);
+  console.log(data);
+  
   const {
     amenityCategory,
     amenityAddr,
