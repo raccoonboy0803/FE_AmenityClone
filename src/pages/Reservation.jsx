@@ -9,7 +9,6 @@ import { useRecoilState } from 'recoil';
 import { reserveData, reserverT, roomIdcheck } from '../shared/atoms';
 import Calender from '../components/Calender';
 import axios from '../api/axios';
-import { useMutation } from 'react-query';
 import Cookies from 'js-cookie';
 
 function Reservation() {
@@ -69,6 +68,7 @@ function Reservation() {
       );
       console.log(JSON.stringify(response?.data));
       alert('예약이 완료 되었습니다.');
+      navigate('/mypage');
     } catch (err) {
       if (!err?.response) {
         alert('서버의 응답이 없습니다');
