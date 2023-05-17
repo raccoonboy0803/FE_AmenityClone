@@ -1,14 +1,20 @@
 import tw, { styled } from 'twin.macro';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ReserveFilter from '../components/ReserveFilter';
 import ReserveCard from '../components/ReserveCard';
 import { useQuery } from 'react-query';
 import { useCookies } from 'react-cookie';
 import axios from '../api/axios';
+import { filterResponse, resetBtnCheck } from '../shared/atoms';
+import { useRecoilValue, useRecoilState } from 'recoil';
 
 function Reserve() {
   const { amenityType } = useParams();
+  const filterData = useRecoilValue(filterResponse);
+  const isReset = useRecoilValue(resetBtnCheck);
+
+  console.log(filterData);
 
   // const [cookies, setCookie] = useCookies(['login']);
 
@@ -26,7 +32,7 @@ function Reserve() {
     'fetchData',
     amenityType === '0' ? fetchDataH : fetchDataP,
   );
-  // console.log(data);
+  console.log(data);
 
   return (
     <div style={{ display: 'flex', width: '75%', margin: '0 auto' }}>
@@ -45,9 +51,13 @@ function Reserve() {
             </div>
           </ProductWrap>
         </div>
-        {data?.data.data.map((item) => (
-          <ReserveCard key={item.amenityId} data={item} />
-        ))}
+        {isReset
+          ? data?.data.data.map((item) => (
+              <ReserveCard key={item.amenityId} data={item} />
+            ))
+          : filterData?.map((item) => (
+              <ReserveCard key={item.amenityId} data={item} />
+            ))}
       </div>
     </div>
   );

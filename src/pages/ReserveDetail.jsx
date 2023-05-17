@@ -91,8 +91,8 @@ const ReserveDetail = () => {
           <div>
             <SwiperTop>
               <ul style={styles}>
-                {amenityImgDtoList?.map((item) => (
-                  <SwiperTopList>
+                {amenityImgDtoList?.map((item, index) => (
+                  <SwiperTopList key={index}>
                     <img src={item.imageUrl} />
                   </SwiperTopList>
                 ))}
@@ -102,8 +102,8 @@ const ReserveDetail = () => {
               <Prev onClick={prevBtn} />
               <SwiperBottom>
                 <ul style={bottomStyle}>
-                  {amenityImgDtoList?.map((item) => (
-                    <li>
+                  {amenityImgDtoList?.map((item, index) => (
+                    <li key={index}>
                       <img src={item.imageUrl} />
                     </li>
                   ))}
@@ -144,8 +144,8 @@ const ReserveDetail = () => {
           </BtnData>
           <Calender />
         </RoomInfo>
-        {roomDtoList?.map((item) => (
-          <RoomCard data={item} />
+        {roomDtoList?.map((item, index) => (
+          <RoomCard data={item} key={index} />
         ))}
       </DetailForm>
     </DetailWrap>

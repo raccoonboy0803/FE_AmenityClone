@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const RoomCard = ({ data }) => {
   console.log(data);
   const { roomNm, roomPrice, roomImgDtoList, roomChk } = data;
+  console.log(roomImgDtoList);
   return (
     <RoomWrap>
       <p className="Roompara">
@@ -11,8 +12,8 @@ const RoomCard = ({ data }) => {
           src="//image.goodchoice.kr/resize_370x220/affiliate/2019/07/16/5d2d61a54e745.jpg"
           alt="roomImg"
         /> */}
-        {roomImgDtoList.map((item) => (
-          <img src={item.roomUrl} />
+        {roomImgDtoList.map((item, index) => (
+          <img src={item.roomUrl} key={index} />
         ))}
       </p>
       <strong>{roomNm}</strong>

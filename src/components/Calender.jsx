@@ -177,7 +177,12 @@ const Calender = ({ props }) => {
   console.log(endDate);
 
   const dateSelect = () => {
-    setRecoilDate({ startDate, endDate });
+    setRecoilDate({
+      year: response.year,
+      month: response.month,
+      startDate,
+      endDate,
+    });
     setModalShow(false);
   };
 

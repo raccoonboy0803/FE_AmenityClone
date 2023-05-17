@@ -10,7 +10,6 @@ import ondol from '../images/icon_ondol.png';
 import ondolCheck from '../images/icon_ondolCheck.png';
 import Calender from './Calender.jsx';
 import { getMonthDate } from './Calendar2';
-// import { Calender3 } from './Calender3';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { calendarDate, calendarModal } from '../shared/atoms';
 import {
@@ -21,20 +20,27 @@ import {
   etcText,
   etcTextP,
 } from '../shared/filterData.js';
-import { useParams } from 'react-router-dom';
+import { isRouteErrorResponse, useParams } from 'react-router-dom';
+import axios from '../api/axios';
+import { useQuery } from 'react-query';
+import { filterResponse, resetBtnCheck } from '../shared/atoms';
+import { filterInput } from '../shared/atoms';
 
 const ReserveFilter = () => {
   const { amenityType } = useParams();
 
   // const [isCalender, setIsCalender] = useState(false);
   const [isModalShow, setIsModalShow] = useRecoilState(calendarModal);
-  const [isChecked, setIsChecked] = useState([null]); // 베드 유형
+  const [filterRes, setFilterRes] = useRecoilState(filterResponse);
+  const [isFilterReset, setIsFilterReset] = useRecoilState(resetBtnCheck);
+  const [filterPrev, setFilterPrev] = useRecoilState(filterInput);
+  const [isBedCheck, setIsBedCheck] = useState([false, false, false, false]); // 베드 유형
   const [people, setPeople] = useState(2); //인원
   const cate = useRef('');
 
   // const [amenityCommon, setAmenityCommon] = useState([]); //공통시설
   const [formValue, setFormValue] = useState({
-    amenityType: 0, //호텔, 펜션
+    amenityType: Number(amenityType), //호텔, 펜션
     amenityCategory: '', //유형
     amenityPeople: '', //인원
     amenityVal: '', //호텔:베드타입 , 펜션:금액
@@ -106,6 +112,36 @@ const ReserveFilter = () => {
     });
   }; //베드
 
+  const filterHandle = async () => {
+    try {
+      await axios
+        .post('/api/amenity/filterAmenity', formValue)
+        .then((res) => setFilterRes(res.data.data));
+
+      setFilterPrev(formValue);
+      setIsFilterReset(false);
+    } catch (error) {
+      console.log('에러다아:::', error);
+    }
+  };
+  const filterReset = () => {
+    setFilterRes([]);
+    setFilterPrev({});
+    setIsFilterReset(true);
+    // setFormValue({
+    //   amenityCategory: '', //유형
+    //   amenityPeople: '', //인원
+    //   amenityVal: '', //호텔:베드타입 , 펜션:금액
+    //   amenityCommon: [], //공용시설
+    //   amenityIn: [], //객실 내 시설
+    //   amenityEtc: [], // 기타
+    // });
+    // setPeople(2);
+    window.location.reload();
+  };
+
+  const formHandle = () => {};
+  console.log(formValue);
   return (
     <FilterWrap>
       <DateWrap>
@@ -123,8 +159,8 @@ const ReserveFilter = () => {
 
       <DetailTitle>상세조건</DetailTitle>
       <BtnWrap>
-        <button>초기화</button>
-        <button>적용</button>
+        <button onClick={filterReset}>초기화</button>
+        <button onClick={filterHandle}>적용</button>
       </BtnWrap>
       <ListWrap>
         <strong>호텔 리조트 유형</strong>
