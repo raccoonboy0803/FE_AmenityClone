@@ -78,15 +78,11 @@ function Mypage() {
     if (window.confirm('예약을 취소하시겠습니까?')) {
       deleteMutation.mutate([reserveId.id, accessToken, refreshtoken])
       alert('예약이 취소 되었습니다.')
+      window.location.reload()
     } else {
       return false
     }
   }
-
-  useEffect(() => {
-    console.log(mypage);
-  },[mypage]);
-
   // console.log('조회:', mypage);
 
   return (
@@ -184,7 +180,7 @@ const MyInfoH = styled.h1`
 
 const MypageBg = styled.div`
   width: 930px;
-  height: 800px;
+  height: 100%;
   margin-top: 50px;
   display: flex;
   justify-content: space-between;
