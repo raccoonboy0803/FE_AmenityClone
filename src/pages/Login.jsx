@@ -16,7 +16,7 @@ function Login() {
 
   const EMAIL_REGEX =
     /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-  const PWD_REGEX = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,24}$/;
+  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const [userEmail, setEmail] = useState('');
   const [isEmail, setIsEmail] = useState(false);
@@ -62,8 +62,6 @@ function Login() {
       Cookies.set('refreshToken', refreshToken);
       localStorage.setItem('userEmail', response?.headers.user_email);
       navigate('/');
-      console.log(response?.headers);
-      console.log(response?.headers.access_key);
       if (response?.data.msg === '없는 이메일 입니다.') {
         alert('회원 정보가 없습니다. 회원가입 페이지로 이동합니다.');
         navigate('/signup');
