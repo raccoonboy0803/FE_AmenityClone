@@ -59,10 +59,11 @@ function Reservation(props) {
   console.log('룸필터::', roomFilter);
   console.log('같은 값', roomFilter.roomId);
 
-  const roomPrice = Number(roomFilter?.roomPrice.replace(',', ''));
+  const roomPrice = Number(roomFilter?.roomPrice.replaceAll(',', ''));
   const roomPriceNumber =
     (calendarsource.endDate - calendarsource.startDate) * roomPrice;
 
+    console.log(roomPrice)
   useEffect(() => {
     if (localStorage.getItem('userEmail') === null) {
       alert('로그인 후에 이용 가능합니다.');
