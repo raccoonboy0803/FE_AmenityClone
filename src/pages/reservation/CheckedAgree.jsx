@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import * as st from '../../shared/styles';
 
-function CheckedAgree() {
+function CheckedAgree(props) {
   const data = [
     { id: 0, title: '숙소이용규칙 및 취소/환불규정 동의' },
     { id: 1, title: '개인정보 수집 및 이용 동의' },
@@ -10,13 +10,11 @@ function CheckedAgree() {
     { id: 3, title: '만 14세 이상 확인' },
   ];
 
-  const [check, setCheck] = useState([]);
-
   const handleSignle = (checked, id) => {
     if (checked) {
       setCheck((prev) => [...prev, id]);
     } else {
-      setCheck(check.filter((item) => item !== id));
+      props.setCheck(props.check.filter((item) => item !== id));
     }
   };
 
@@ -24,9 +22,9 @@ function CheckedAgree() {
     if (checked) {
       const idArray = [];
       data.forEach((item) => idArray.push(item.id));
-      setCheck(idArray);
+      props.setCheck(idArray);
     } else {
-      setCheck([]);
+      props.setCheck([]);
     }
   };
 
@@ -37,7 +35,7 @@ function CheckedAgree() {
           type="checkbox"
           name="selectAll"
           onChange={(e) => handleAll(e.target.checked)}
-          checked={check.length === data.length ? true : false}
+          checked={props.check.length === data.length ? true : false}
         />
         &nbsp;
         <CheckedP>전체 동의</CheckedP>
@@ -49,7 +47,7 @@ function CheckedAgree() {
             type="checkbox"
             name={`select-${data.id}`}
             onChange={(e) => handleSignle(e.target.checked, data.id)}
-            checked={check.includes(data.id) ? true : false}
+            checked={props.check.includes(data.id) ? true : false}
           />
           &nbsp;
           <CheckedP content="content">{data.title}</CheckedP>&nbsp;<CheckedP required="required">(필수)</CheckedP>
