@@ -15,21 +15,22 @@ import {
   calendarModal,
   reserveData,
   reserverT,
+  amenityIdSave,
 } from '../shared/atoms';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
 import { useAmenityContext } from '../shared/AmenityContext';
 
 const ReserveDetail = () => {
   const { amenityId } = useParams();
-  
+  console.log(amenityId);
   const token = Cookies.get('accessToken');
   const refreshtoken = Cookies.get('refreshToken');
   const [reserveSource, setReserveSource] = useRecoilState(reserveData);
   const [isModalShow, setIsModalShow] = useRecoilState(calendarModal);
   const [reserveR, setReserveR] = useRecoilState(reserverT);
   const calendarsource = useRecoilValue(calendarDate);
-  // console.log('acess:::::', token);
-  // console.log('refresh::::;:', refreshtoken);
+  const [amenitySave, setAmenitySave] = useRecoilState(amenityIdSave);
+
   const detailData = async () => {
     const response = await axios.get(`/api/amenity/detail/${amenityId}`);
     return response;
@@ -48,12 +49,13 @@ const ReserveDetail = () => {
 
   useEffect(() => {
     setReserveR(data);
+    setAmenitySave(amenityId);
   });
   // console.log(isLoading);
   // console.log(data?.data.data);
   // console.log(data?.data.amenityImgDtoList);
   // console.log(error);
-  console.log(data);
+  // console.log(data);
 
   const {
     amenityCategory,

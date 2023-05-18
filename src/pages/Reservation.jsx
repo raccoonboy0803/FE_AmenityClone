@@ -7,11 +7,11 @@ import CheckedAgree from './reservation/CheckedAgree';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
-  calendarDate,
-  calendarModal,
   reserveData,
   reserverT,
   roomIdcheck,
+  amenityIdSave,
+  calendarDate,
 } from '../shared/atoms';
 import Calender from '../components/Calender';
 import axios from '../api/axios';
@@ -25,22 +25,29 @@ function Reservation(props) {
   const [check, setCheck] = useState([]);
 
   let navigate = useNavigate();
+  const [amenitySave, setAmenitySave] = useRecoilState(amenityIdSave);
+  const [calenderData, setCalendarData] = useRecoilState(calendarDate);
+
+  console.log(amenitySave); //숙소 ID
+
+  console.log(calenderData.month); //월
+  console.log(calenderData.startDate); //체크인 일
+  console.log(calenderData.endDate); //체크아웃 일
+  console.log(calenderData.start); //2023-01-01 형태 체크인
+  console.log(calenderData.end); //2023-01-01 형태 체크아웃
 
   const accessToken = Cookies.get('accessToken');
   const refreshtoken = Cookies.get('refreshToken');
   const user = localStorage.getItem('userEmail');
+
+  console.log(amenitySave); //ID
 
   const [username, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
 
   const [reserveD, setReserveD] = useRecoilState(reserverT); //해당 숙소 데이터
   const [roomid, setRoomid] = useRecoilState(roomIdcheck); //룸 id
-  const [isModalShow, setIsModalShow] = useRecoilState(calendarModal);
   const calendarsource = useRecoilValue(calendarDate);
-
-  const calenderHandle = () => {
-    setIsModalShow((prev) => !prev);
-  };
 
   console.log('데이터', reserveD);
   console.log('룸ID', roomid);
@@ -88,11 +95,11 @@ function Reservation(props) {
             username,
             payMethod: '카카오페이',
             userEmail,
-            amenityId: 2,
+            amenityId: amenitySave,
             roomId: roomid,
             price: roomPriceNumber,
-            reserveStartDate: 'string',
-            reserveEndDate: 'string',
+            reserveStartDate: calenderData.start,
+            reserveEndDate: calenderData.end,
           }),
           config,
         );
@@ -146,26 +153,15 @@ function Reservation(props) {
                 <ReservP pay="pay">{roomFilter?.roomNm}</ReservP>
               </PayBox>
 
-              {/* <PayBox>
-              <ReservP>체크인/체크아웃</ReservP>
-              <ReservP pay="pay">05.15 월 15:00</ReservP>
+              <PayBox>
+              <ReservP>체크인</ReservP>
+              <ReservP pay="pay">{calenderData.start}</ReservP>
             </PayBox>
 
             <PayBox>
               <ReservP>체크아웃</ReservP>
-              <ReservP pay="pay">05.16 화 12:00</ReservP>
-            </PayBox> */}
-              <BtnData onClick={calenderHandle}>
-                <span>
-                  {calendarsource.month}.{calendarsource.startDate} ~
-                  {calendarsource.month}.{calendarsource.endDate}
-                </span>
-                <span>
-                  &nbsp;·&nbsp;
-                  {calendarsource.endDate - calendarsource.startDate}박
-                </span>
-              </BtnData>
-              <CalenderWrap>{isModalShow && <Calender />}</CalenderWrap>
+              <ReservP pay="pay">{calenderData.end}</ReservP>
+            </PayBox>
 
               <PayLine></PayLine>
 
@@ -229,7 +225,7 @@ const ReservInfo = styled.div`
 
 const ReservPay = styled.div`
   width: 330px;
-  height: 650px;
+  height: 780px;
   background-color: #f5f5f5;
   border-radius: 4px;
   box-sizing: border-box;

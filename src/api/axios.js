@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 export default axios.create({
   baseURL: 'http://3.36.65.197:8080/',
 });
-// http://15.165.17.82:8080/swagger-ui/index.html#/
+
 axios.interceptors.request.use(
   (config) => {
     const token = Cookies.get('accessToken');
