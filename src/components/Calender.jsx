@@ -1,132 +1,141 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useState,
+  forwardRef,
+  useImperativeHandle,
+} from 'react';
 import styled from 'styled-components';
 import { getMonthDate, getNewDateObj } from './Calendar2';
 import { useRecoilState } from 'recoil';
 import { calendarDate, calendarModal } from '../shared/atoms';
 
-export const CalendarDate = ({
-  setStartDate,
-  setEndDate,
-  startDate,
-  endDate,
-}) => {
-  const [page, setPage] = useState(0);
-  const newDate = getNewDateObj(new Date());
+export const CalendarDate = forwardRef(
+  ({ startDate, setStartDate, endDate, setEndDate }, ref) => {
+    const [page, setPage] = useState(0);
+    const newDate = getNewDateObj(new Date());
 
-  const handlingMonth = (data) => {
-    setPage((prev) => prev + data);
-  };
+    const handlingMonth = (data) => {
+      setPage((prev) => prev + data);
+    };
 
-  const response = getMonthDate(newDate, page);
+    useImperativeHandle(ref, () => ({ handlingMonth }));
 
-  const current = new Date().getDate();
-  const onDateClick = (e) => {
-    const { innerText } = e.target;
-    if (innerText < current) {
-      return;
-    }
-    if (innerText >= endDate) {
-      setStartDate(innerText);
-      setEndDate(undefined);
-    } else if (endDate === undefined) {
-      setEndDate(innerText);
-    } else if (innerText <= startDate && endDate !== undefined) {
-      setStartDate(innerText);
-      setEndDate(undefined);
-    } else if (innerText >= startDate && innerText <= endDate) {
-      setStartDate(innerText);
-      setEndDate(undefined);
-    }
-  };
+    console.log(typeof page);
 
-  useEffect(() => {
-    const res = document.getElementsByTagName('td');
+    const response = getMonthDate(newDate, page);
+    console.log(response);
 
-    for (let i = 0; i < new Date().getDate(); i++) {
-      res[i].style.color = 'rgba(0, 0, 0, 0.38)';
-      res[i].style.background = 'white';
-    }
-    for (let i = startDate; i <= endDate; i++) {
-      res[i].style.background = 'rgb(242, 17, 76)';
-    }
-    for (let i = 0; i < res.length; i++) {
-      if (i >= startDate && i <= endDate) {
-        continue;
+    // const current = new Date().getDate();
+    const current = response.month;
+    const onDateClick = (e) => {
+      const { innerText } = e.target;
+      if (innerText < current) {
+        return;
       }
-      res[i].style.background = 'white';
-    }
-  }, [startDate, endDate]);
+      if (innerText >= endDate) {
+        setStartDate(innerText);
+        setEndDate(undefined);
+      } else if (endDate === undefined) {
+        setEndDate(innerText);
+      } else if (innerText <= startDate && endDate !== undefined) {
+        setStartDate(innerText);
+        setEndDate(undefined);
+      } else if (innerText >= startDate && innerText <= endDate) {
+        setStartDate(innerText);
+        setEndDate(undefined);
+      }
+    };
 
-  useEffect(() => {
-    const res = document.getElementsByTagName('td');
-    res[startDate].style.background = 'rgb(242, 17, 76)';
-  }, [startDate]);
+    useEffect(() => {
+      const res = document.getElementsByTagName('td');
 
-  return (
-    <CalDataWrap>
-      <thead>
-        <tr>
-          <th>일</th>
-          <th>월</th>
-          <th>화</th>
-          <th>수</th>
-          <th>목</th>
-          <th>금</th>
-          <th>토</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          {response?.date[0].map((date) =>
-            date.date > 7 ? (
-              <td key={date.date} style={{ color: 'white' }}>
-                {date.date}
-              </td>
-            ) : (
+      for (let i = 0; i < new Date().getDate(); i++) {
+        res[i].style.color = 'rgba(0, 0, 0, 0.38)';
+        res[i].style.background = 'white';
+      }
+      for (let i = startDate; i <= endDate; i++) {
+        res[i].style.background = 'rgb(242, 17, 76)';
+      }
+      for (let i = 0; i < res.length; i++) {
+        if (i >= startDate && i <= endDate) {
+          continue;
+        }
+        res[i].style.background = 'white';
+      }
+    }, [startDate, endDate]);
+
+    useEffect(() => {
+      const res = document.getElementsByTagName('td');
+      res[startDate].style.background = 'rgb(242, 17, 76)';
+    }, [startDate]);
+
+    return (
+      <CalDataWrap>
+        <thead>
+          <tr>
+            <th>일</th>
+            <th>월</th>
+            <th>화</th>
+            <th>수</th>
+            <th>목</th>
+            <th>금</th>
+            <th>토</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            {response?.date[0].map((date) =>
+              date.date > 7 ? (
+                <td key={date.date} style={{ color: 'white' }}>
+                  {date.date}
+                </td>
+              ) : (
+                <td key={date.date} onClick={onDateClick}>
+                  {date.date}
+                </td>
+              ),
+            )}
+          </tr>
+          <tr>
+            {response?.date[1].map((date) => (
               <td key={date.date} onClick={onDateClick}>
                 {date.date}
               </td>
-            ),
-          )}
-        </tr>
-        <tr>
-          {response?.date[1].map((date) => (
-            <td key={date.date} onClick={onDateClick}>
-              {date.date}
-            </td>
-          ))}
-        </tr>
-        <tr>
-          {response?.date[2].map((date) => (
-            <td key={date.date} onClick={onDateClick}>
-              {date.date}
-            </td>
-          ))}
-        </tr>
-        <tr>
-          {response?.date[3].map((date) => (
-            <td key={date.date} onClick={onDateClick}>
-              {date.date}
-            </td>
-          ))}
-        </tr>
-        <tr>
-          {response?.date[4].map((date) =>
-            date.date.toString().length === 1 ? (
-              <td key={date.date} style={{ color: 'white' }}>
-                {date.date}
-              </td>
-            ) : (
+            ))}
+          </tr>
+          <tr>
+            {response?.date[2].map((date) => (
               <td key={date.date} onClick={onDateClick}>
                 {date.date}
               </td>
-            ),
-          )}
-        </tr>
-      </tbody>
-    </CalDataWrap>
-  );
-};
+            ))}
+          </tr>
+          <tr>
+            {response?.date[3].map((date) => (
+              <td key={date.date} onClick={onDateClick}>
+                {date.date}
+              </td>
+            ))}
+          </tr>
+          <tr>
+            {response?.date[4]?.map((date) =>
+              date.date.toString().length === 1 ? (
+                <td key={date.date} style={{ color: 'white' }}>
+                  {date.date}
+                </td>
+              ) : (
+                <td key={date.date} onClick={onDateClick}>
+                  {date.date}
+                </td>
+              ),
+            )}
+          </tr>
+        </tbody>
+      </CalDataWrap>
+    );
+  },
+);
 const CalDataWrap = styled.table`
   touch-action: none;
   width: 100%;
@@ -164,6 +173,11 @@ const Calender = ({ props }) => {
   const [modalShow, setModalShow] = useRecoilState(calendarModal);
   const newDate = getNewDateObj(new Date());
   const response = getMonthDate(newDate);
+  const myRef = useRef({});
+
+  const doSomething = (num) => {
+    myRef.current.handlingMonth(num);
+  };
 
   if (recoilState.startDate === 0) {
   }
@@ -194,12 +208,12 @@ const Calender = ({ props }) => {
     <CalenderWrap>
       <CalenderTop>
         <CalenderTitle>
-          <div onClick={() => handletoMonth(-1)} />
+          <div onClick={() => doSomething(-1)} />
           <div>
             <span>{response.year}년&nbsp;</span>
             <span>{response.month}월</span>
           </div>
-          <div onClick={() => handletoMonth(+1)} />
+          <div onClick={() => doSomething(+1)} />
         </CalenderTitle>
       </CalenderTop>
       <CalendarDate
@@ -207,6 +221,7 @@ const Calender = ({ props }) => {
         setEndDate={setEndDate}
         startDate={startDate}
         endDate={endDate}
+        ref={myRef}
       />
       <CalBtnWrap>
         <button onClick={dateSelect}>선택 완료</button>
