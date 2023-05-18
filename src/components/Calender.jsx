@@ -10,9 +10,14 @@ export const CalendarDate = ({
   startDate,
   endDate,
 }) => {
+  const [page, setPage] = useState(0);
   const newDate = getNewDateObj(new Date());
 
-  const response = getMonthDate(newDate);
+  const handlingMonth = (data) => {
+    setPage((prev) => prev + data);
+  };
+
+  const response = getMonthDate(newDate, page);
 
   const current = new Date().getDate();
   const onDateClick = (e) => {
@@ -72,7 +77,7 @@ export const CalendarDate = ({
       </thead>
       <tbody>
         <tr>
-          {response.date[0].map((date) =>
+          {response?.date[0].map((date) =>
             date.date > 7 ? (
               <td key={date.date} style={{ color: 'white' }}>
                 {date.date}
@@ -85,21 +90,21 @@ export const CalendarDate = ({
           )}
         </tr>
         <tr>
-          {response.date[1].map((date) => (
+          {response?.date[1].map((date) => (
             <td key={date.date} onClick={onDateClick}>
               {date.date}
             </td>
           ))}
         </tr>
         <tr>
-          {response.date[2].map((date) => (
+          {response?.date[2].map((date) => (
             <td key={date.date} onClick={onDateClick}>
               {date.date}
             </td>
           ))}
         </tr>
         <tr>
-          {response.date[3].map((date) => (
+          {response?.date[3].map((date) => (
             <td key={date.date} onClick={onDateClick}>
               {date.date}
             </td>
@@ -189,12 +194,12 @@ const Calender = ({ props }) => {
     <CalenderWrap>
       <CalenderTop>
         <CalenderTitle>
-          <div />
+          <div onClick={() => handletoMonth(-1)} />
           <div>
             <span>{response.year}년&nbsp;</span>
             <span>{response.month}월</span>
           </div>
-          <div />
+          <div onClick={() => handletoMonth(+1)} />
         </CalenderTitle>
       </CalenderTop>
       <CalendarDate
@@ -206,7 +211,6 @@ const Calender = ({ props }) => {
       <CalBtnWrap>
         <button onClick={dateSelect}>선택 완료</button>
       </CalBtnWrap>
-      {/* <button onClick={dateSelect}>선택 완료</button> */}
     </CalenderWrap>
   );
 };
@@ -279,7 +283,6 @@ const CalBtnWrap = styled.div`
     font-size: 16px;
     font-weight: bold;
     color: rgb(242, 17, 76);
-
     border-radius: 4px;
   }
 `;

@@ -63,11 +63,18 @@ const ReserveFilter = () => {
 
   const checkboxHandle = (e) => {
     const { name, value } = e.target;
+    let prev = formValue[name];
 
     if (e.target.checked === true) {
-      formValue[name].push(value);
+      setFormValue({
+        ...formValue,
+        [name]: [...prev, value],
+      });
     } else {
-      formValue[name].filter((item) => item !== value);
+      setFormValue({
+        ...formValue,
+        [name]: [...prev.filter((item) => item !== value)],
+      });
     }
   }; //공통 내부 기타
 
@@ -112,10 +119,12 @@ const ReserveFilter = () => {
       amenitySdat: dateValue.start,
       amenityEdat: dateValue.end,
     });
+    console.log(formValue);
     try {
-      await axios
-        .post('/api/amenity/filterAmenity', formValue)
-        .then((res) => setFilterRes(res.data.data));
+      await axios.post('/api/amenity/filterAmenity', formValue).then((res) => {
+        console.log(res);
+        setFilterRes(res.data.data);
+      });
 
       setFilterPrev(formValue);
       setIsFilterReset(false);
@@ -143,7 +152,7 @@ const ReserveFilter = () => {
     });
     window.location.reload();
   };
-  // console.log(formValue);
+  console.log(formValue);
   return (
     <FilterWrap>
       <DateWrap>

@@ -174,8 +174,8 @@ const ReserveDetail = () => {
             <span>
               &nbsp;·&nbsp;{calendarsource.endDate - calendarsource.startDate}박
             </span>
+            <CalenderWrap>{isModalShow && <Calender />}</CalenderWrap>
           </BtnData>
-          <CalenderWrap>{isModalShow && <Calender />}</CalenderWrap>
         </RoomInfo>
         {roomDtoList?.map((item, index) => (
           <RoomCard
@@ -389,7 +389,8 @@ const BtnData = styled.div`
 `;
 const CalenderWrap = styled.div`
   position: absolute;
-  top: 101%;
-  left: 15%;
+  top: 50px;
+  left: 0;
   z-index: 200;
+  height: 230px;
 `;
