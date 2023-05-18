@@ -6,17 +6,35 @@ import SelectPayment from './reservation/SelectPayment';
 import CheckedAgree from './reservation/CheckedAgree';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { reserveData, reserverT, roomIdcheck } from '../shared/atoms';
+import {
+  reserveData,
+  reserverT,
+  roomIdcheck,
+  amenityIdSave,
+  calendarDate,
+} from '../shared/atoms';
 import Calender from '../components/Calender';
 import axios from '../api/axios';
 import Cookies from 'js-cookie';
 
 function Reservation() {
   let navigate = useNavigate();
+  const [amenitySave, setAmenitySave] = useRecoilState(amenityIdSave);
+  const [calenderData, setCalendarData] = useRecoilState(calendarDate);
+
+  console.log(amenitySave); //숙소 ID
+
+  console.log(calenderData.month); //월
+  console.log(calenderData.startDate); //체크인 일
+  console.log(calenderData.endDate); //체크아웃 일
+  console.log(calenderData.start); //2023-01-01 형태 체크인
+  console.log(calenderData.end); //2023-01-01 형태 체크아웃
 
   const accessToken = Cookies.get('accessToken');
   const refreshtoken = Cookies.get('refreshToken');
   const user = localStorage.getItem('userEmail');
+
+  console.log(amenitySave); //ID
 
   const [username, setUserName] = useState('');
   const [userEmail, setUserEmail] = useState('');
@@ -52,7 +70,7 @@ function Reservation() {
           ACCESS_KEY: `Bearer ${accessToken}`,
           REFRESH_KEY: `Bearer ${refreshtoken}`,
         },
-      }
+      };
       const response = await axios.post(
         '/api/reserve/register',
         JSON.stringify({
@@ -61,10 +79,11 @@ function Reservation() {
           userEmail,
           amenityId: 0,
           roomId: roomid,
-          price: Number((roomFilter?.roomPrice).replace(',','')),
+          price: Number((roomFilter?.roomPrice).replace(',', '')),
           reserveStartDate: 'string',
           reserveEndDate: 'string',
-        }), config
+        }),
+        config,
       );
       console.log(JSON.stringify(response?.data));
       alert('예약이 완료 되었습니다.');
@@ -120,15 +139,15 @@ function Reservation() {
                 <ReservP pay="pay">{roomFilter?.roomNm}</ReservP>
               </PayBox>
 
-            <PayBox>
-              <ReservP>체크인</ReservP>
-              <ReservP pay="pay">05.15 월 15:00</ReservP>
-            </PayBox>
+              <PayBox>
+                <ReservP>체크인</ReservP>
+                <ReservP pay="pay">05.15 월 15:00</ReservP>
+              </PayBox>
 
-            <PayBox>
-              <ReservP>체크아웃</ReservP>
-              <ReservP pay="pay">05.16 화 12:00</ReservP>
-            </PayBox> */}
+              <PayBox>
+                <ReservP>체크아웃</ReservP>
+                <ReservP pay="pay">05.16 화 12:00</ReservP>
+              </PayBox>
               <Calender />
 
               <PayLine></PayLine>

@@ -33,8 +33,7 @@ export const CalendarDate = ({
       setEndDate(undefined);
     }
   };
-  console.log('start::::::', startDate);
-  console.log('end:::::::', endDate);
+
   useEffect(() => {
     const res = document.getElementsByTagName('td');
 
@@ -173,8 +172,6 @@ const Calender = ({ props }) => {
       ? new Date().getDate() + 1
       : recoilState.endDate,
   );
-  console.log(startDate);
-  console.log(endDate);
 
   const dateSelect = () => {
     setRecoilDate({

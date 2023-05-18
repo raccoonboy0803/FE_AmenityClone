@@ -67,3 +67,8 @@ export const roomIdcheck = atom({
   key: 'roomIdch',
   default: 0,
 });
+
+export const amenityIdSave = atom({
+  key: 'amenitySave',
+  default: '',
+});

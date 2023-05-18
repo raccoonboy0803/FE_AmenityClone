@@ -28,7 +28,6 @@ export default ReserveCard;
 const ListWrap = styled.div`
   display: inline-block;
   width: 100%;
-  font-size: 0px;
 `;
 
 const ProductList = styled.li`
