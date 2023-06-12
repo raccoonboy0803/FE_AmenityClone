@@ -47,7 +47,7 @@ function Reservation() {
 
   const room = reserveD.data.data.roomDtoList;
 
-  const [roomFilter] = room.filter((item) => item.roomId == roomid);
+  const [roomFilter] = room.filter(item => item.roomId == roomid);
   console.log('룸::', room);
   console.log('룸필터::', roomFilter);
   console.log('같은 값', roomFilter.roomId);
@@ -59,7 +59,7 @@ function Reservation() {
     }
   });
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     try {
@@ -83,7 +83,7 @@ function Reservation() {
           reserveStartDate: 'string',
           reserveEndDate: 'string',
         }),
-        config,
+        config
       );
       console.log(JSON.stringify(response?.data));
       alert('예약이 완료 되었습니다.');
@@ -115,13 +115,13 @@ function Reservation() {
               <Input
                 placeholder="체크인시 필요한 정보입니다."
                 value={username}
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={e => setUserName(e.target.value)}
               />
               <ReservP>이메일 주소</ReservP>
               <Input
                 placeholder="체크인시 필요한 정보입니다."
                 value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
+                onChange={e => setUserEmail(e.target.value)}
               />
               <div style={{ height: '50px' }}></div>
               <ReservP title="title">결제수단 선택</ReservP>
@@ -222,9 +222,9 @@ const ReservPay = styled.div`
 `;
 
 const ReservP = styled.p`
-  font-size: ${(props) => (props.pay ? '1.2' : '1')}rem;
-  font-weight: ${(props) => (props.title ? 'bold' : '')};
-  color: ${(props) => (props.title ? 'black' : props.pay ? 'black' : 'gray')};
+  font-size: ${props => (props.pay ? '1.2' : '1')}rem;
+  font-weight: ${props => (props.title ? 'bold' : '')};
+  color: ${props => (props.title ? 'black' : props.pay ? 'black' : 'gray')};
 `;
 
 const Input = styled.input`
