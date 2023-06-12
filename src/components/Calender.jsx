@@ -11,8 +11,7 @@ import { useRecoilState } from 'recoil';
 import { calendarDate, calendarModal } from '../shared/atoms';
 
 export const CalendarDate = forwardRef(
-  ({ startDate, setStartDate, endDate, setEndDate }, ref) => {
-    const [page, setPage] = useState(0);
+  ({ startDate, setStartDate, endDate, setEndDate, page, setPage }, ref) => {
     const newDate = getNewDateObj(new Date());
 
     const handlingMonth = (data) => {
@@ -21,18 +20,19 @@ export const CalendarDate = forwardRef(
 
     useImperativeHandle(ref, () => ({ handlingMonth }));
 
-    console.log(typeof page);
+    // console.log(typeof page);
 
     const response = getMonthDate(newDate, page);
     console.log(response);
 
-    // const current = new Date().getDate();
-    const current = response.month;
+    const current = new Date().getDate();
+    // const current = response.date;
     const onDateClick = (e) => {
       const { innerText } = e.target;
-      if (innerText < current) {
-        return;
-      }
+      console.log('inner::::', innerText);
+      // if (innerText < current) {
+      //   return;
+      // }
       if (innerText >= endDate) {
         setStartDate(innerText);
         setEndDate(undefined);
@@ -46,14 +46,27 @@ export const CalendarDate = forwardRef(
         setEndDate(undefined);
       }
     };
+    console.log('response::::', response);
+    // console.log(response.date);
+    // console.log(new Date().getMonth() + 1);
 
     useEffect(() => {
       const res = document.getElementsByTagName('td');
 
+      console.log('reMonth:::', response.month);
+      console.log('new:::::', new Date().getMonth() + 1);
       for (let i = 0; i < new Date().getDate(); i++) {
-        res[i].style.color = 'rgba(0, 0, 0, 0.38)';
-        res[i].style.background = 'white';
+        if (response.month === new Date().getMonth() + 1) {
+          res[i].style.color = 'rgba(0, 0, 0, 0.38)';
+          res[i].style.background = 'white';
+        } else if (response.month !== new Date().getMonth() + 1) {
+          res[i].style.color = 'rgb(0, 0, 0)';
+        }
       }
+      // for(let i=0; i< response.data[0])
+      response.date[0].map((item, index) => {
+        item.date > 7 && (res[index].style.color = 'rgba(0, 0, 0, 0.38)');
+      });
       for (let i = startDate; i <= endDate; i++) {
         res[i].style.background = 'rgb(242, 17, 76)';
       }
@@ -63,7 +76,7 @@ export const CalendarDate = forwardRef(
         }
         res[i].style.background = 'white';
       }
-    }, [startDate, endDate]);
+    }, [startDate, endDate, response]);
 
     useEffect(() => {
       const res = document.getElementsByTagName('td');
@@ -171,8 +184,15 @@ const CalDataWrap = styled.table`
 const Calender = ({ props }) => {
   const [recoilState, setRecoilDate] = useRecoilState(calendarDate);
   const [modalShow, setModalShow] = useRecoilState(calendarModal);
-  const newDate = getNewDateObj(new Date());
-  const response = getMonthDate(newDate);
+
+  const [resTrack, setResTrack] = useState({});
+  const [page, setPage] = useState(0);
+  const newDate = getNewDateObj(
+    new Date(recoilState.year, recoilState.month - 1),
+  );
+  console.log(recoilState);
+  const response = getMonthDate(newDate, page);
+  console.log(response);
   const myRef = useRef({});
 
   const doSomething = (num) => {
@@ -204,6 +224,7 @@ const Calender = ({ props }) => {
     setModalShow(false);
   };
 
+  console.log(response.month);
   return (
     <CalenderWrap>
       <CalenderTop>
@@ -222,6 +243,8 @@ const Calender = ({ props }) => {
         startDate={startDate}
         endDate={endDate}
         ref={myRef}
+        page={page}
+        setPage={setPage}
       />
       <CalBtnWrap>
         <button onClick={dateSelect}>선택 완료</button>

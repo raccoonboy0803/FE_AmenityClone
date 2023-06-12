@@ -32,10 +32,10 @@ function Header() {
 
   useEffect(() => {
     if (localStorage.getItem('userEmail') === null) {
-      console.log('로그인:', isLogin);
+      // console.log('로그인:', isLogin);
     } else {
       setIsLogin(true);
-      console.log('로그인:', isLogin);
+      // console.log('로그인:', isLogin);
     }
   });
 

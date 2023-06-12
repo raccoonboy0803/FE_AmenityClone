@@ -16,7 +16,8 @@ function Login() {
 
   const EMAIL_REGEX =
     /([\w-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-  const PWD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const PWD_REGEX =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   const [userEmail, setEmail] = useState('');
   const [isEmail, setIsEmail] = useState(false);
@@ -88,7 +89,7 @@ function Login() {
 
         <st.SignButton type="kakao">
           <st.SignP type="kakao">
-            <BsFillChatFill /> 카카오톡으로 로그인
+            <BsFillChatFill />
           </st.SignP>
         </st.SignButton>
 
