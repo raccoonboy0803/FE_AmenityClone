@@ -1,15 +1,16 @@
 {
+  "parser": "babel-parser",
   "env": {
     "browser": true,
     "es2021": true,
+    "node": true,
     "amd": true
   },
   "overrides": [],
   "parserOptions": {
-    "ecmaVersion": 2021,
+    "ecmaVersion": "latest",
     "sourceType": "module"
   },
   "plugins": ["react"],
-  "rules": {},
-  "parser": "babel-parser"
+  "rules": {}
 }

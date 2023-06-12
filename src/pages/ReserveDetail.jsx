@@ -4,9 +4,12 @@ import { useState, useRef, useEffect } from 'react';
 import caroBtn from '../images/icon_prev_btn.png';
 import Calender from '../components/Calender';
 import RoomCard from '../components/RoomCard';
+// import { api } from '../api/axios';
 import { useQuery } from 'react-query';
+// import { auth } from '../api/axios';
 import axios from '../api/axios';
 import Cookies from 'js-cookie';
+// import axios from 'axios';
 import {
   calendarDate,
   calendarModal,
@@ -15,6 +18,8 @@ import {
   amenityIdSave,
 } from '../shared/atoms';
 import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
+import { useAmenityContext } from '../shared/AmenityContext';
+
 const ReserveDetail = () => {
   const { amenityId } = useParams();
   console.log(amenityId);
@@ -31,7 +36,16 @@ const ReserveDetail = () => {
     return response;
   };
 
+  // console.log(calendarsource.month);
+  // console.log(calendarsource.year);
+
+  // headers: {
+  //   ACCESS_KEY: `Bearer ${token}`,
+  //   REFRESH_KEY: `Bearer ${refreshtoken}`,
+  // },
+
   const { isLoading, data, error } = useQuery('datailgo', detailData);
+  // !isLoading && setReserveR(data);
 
   useEffect(() => {
     setReserveR(data);
@@ -50,6 +64,7 @@ const ReserveDetail = () => {
     roomDtoList,
     amenityImgDtoList,
   } = !isLoading && data?.data.data;
+  // console.log(amenityImgDtoList);
 
   const calenderHandle = () => {
     setIsModalShow((prev) => !prev);
@@ -78,7 +93,7 @@ const ReserveDetail = () => {
     transform: `translate3d(-${490 * index}px, 0, 0)`,
   };
   const bottomStyle = {
-    transform: `translate3d(-${120 * index}px, 0, 0)`,
+    transform: `translate3d(-${115 * index}px, 0, 0)`,
   };
   const btnClick = (e) => {
     const { id } = e.target;
@@ -184,6 +199,7 @@ const ReserveDetail = () => {
             key={item.roomNm}
             roomNm={item.roomNm}
             roomPrice={item.roomPrice}
+            // roomUrl={item.roomImgDtoList.roomUrl}
             amenityNm={amenityNm}
             onClick={() => handleRoomCard}
           />
@@ -197,6 +213,7 @@ export default ReserveDetail;
 
 const DetailWrap = styled.div`
   width: 1024px;
+  /* height: 100%; */
   height: 100vh;
   margin: 112px auto 0 auto;
 `;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 
 export default axios.create({
-  baseURL: ' http://localhost:3000',
+  baseURL: process.env.REACT_APP_URL,
   // baseURL: ' http://3.36.65.197:8080/',
 });
 
